@@ -10,6 +10,8 @@
     <div v-if="printOrder" ref="print" style="display: none;">
       <h4 style="text-align: center;">订单详情</h4>
       <hr>
+      <h5>订单号：{{printOrder.id}}</h5>
+      <h5>下单时间：{{printOrder.created_at}}</h5>
       <table class="table table-hover" style="font-size: 9px;">
         <thead>
         <th>名称</th>

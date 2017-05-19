@@ -53,7 +53,11 @@
             </span>
             </router-link>
           </li>
-
+          <li>
+            <a v-on:click="logout()" href="javascript:;">
+              <i class="glyphicon glyphicon-export"></i> <span>退出</span>
+            </a>
+          </li>
         </ul>
       </section>
       <!-- /.sidebar -->
@@ -70,6 +74,12 @@ export default {
   name: 'main',
   activated () {
     this.$router.push('/overview')
+  },
+  methods: {
+    logout: function() {
+      localStorage.removeItem('token')
+      this.$router.push('/auth')
+    }
   }
 }
 </script>
