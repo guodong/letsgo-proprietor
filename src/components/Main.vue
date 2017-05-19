@@ -46,12 +46,12 @@
             </ul>
           </li>
           <li class="">
-            <a href="orders.html">
+            <router-link to="/orders/list">
               <i class="fa fa-files-o"></i> <span>订单管理</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">150</small>
             </span>
-            </a>
+            </router-link>
           </li>
 
         </ul>

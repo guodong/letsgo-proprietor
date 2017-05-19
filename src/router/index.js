@@ -5,6 +5,7 @@ import Auth from '@/components/Auth'
 import Overview from '@/components/Overview'
 import Products from '@/components/products/Index'
 import ProductsCreate from '@/components/products/Create'
+import Orders from '@/components/orders/Index'
 
 Vue.use(Router)
 
@@ -25,6 +26,9 @@ export default new Router({
       }, {
         path: 'products/create',
         component: ProductsCreate
+      }, {
+        path: 'orders/list',
+        component: Orders
       }]
 
     },

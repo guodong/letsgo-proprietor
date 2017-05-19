@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 var VueResource = require('vue-resource')
 import Multiselect from 'vue-multiselect'
+import Print from './components/orders/Print'
 
 Vue.use(VueResource)
 Vue.component(Multiselect)
@@ -40,6 +41,6 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App, Multiselect }
+  components: { App, Multiselect, Print }
 })
 
