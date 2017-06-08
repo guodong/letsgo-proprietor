@@ -3,11 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-var VueResource = require('vue-resource')
 import Multiselect from 'vue-multiselect'
 import Print from './components/orders/Print'
+import Resource from 'vue-resource';
 
-Vue.use(VueResource)
+Vue.use(Resource);
 Vue.component(Multiselect)
 Vue.config.productionTip = false
 
