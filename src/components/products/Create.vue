@@ -189,6 +189,7 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
+import apiUrl from '../../utils/apiUtils.js';
 export default {
   name: 'hello',
   components: { Multiselect },
@@ -208,14 +209,14 @@ export default {
     }
   },
   created () {
-    this.$http.get('http://api.letsgo.qfplan.com/property').then(
+    this.$http.get(`${apiUrl}/property`).then(
       resp => {
         this.properties = resp.body.data
         this.product.skus = this.skus
         this.propChange()
       }
     )
-    this.$http.get('http://api.letsgo.qfplan.com/backendcategory').then(
+    this.$http.get(`${apiUrl}/backendcategory`).then(
       resp => {
         this.cates = resp.body.data
       }
@@ -311,8 +312,8 @@ export default {
           sku.values.push(prop.value.id)
         })
       })
-      console.log(this.product)
-      this.$http.post('http://api.letsgo.qfplan.com/product', this.product).then(function(resp) {
+      // console.log(this.product)
+      this.$http.post(`${apiUrl}/product`, this.product).then(function(resp) {
         this.$router.push('/products/list')
       })
     }
