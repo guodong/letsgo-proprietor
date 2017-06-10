@@ -2,10 +2,7 @@
   <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>
-      商品管理
-      <small>添加商品</small>
-    </h1>
+    <h1>商品管理<small>添加商品</small></h1>
   </section>
 
   <!-- Main content -->
@@ -22,7 +19,6 @@
             <div class="box-body">
               <div class="form-group">
                 <label class="col-sm-2 control-label">类别</label>
-
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col-md-4">
@@ -32,6 +28,7 @@
                           {{ cate.name }}
                         </option>
                       </select>
+
                     </div>
                     <div class="col-md-4">
 

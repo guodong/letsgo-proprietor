@@ -5,7 +5,7 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-      <p class="login-box-msg">业主后台管理系统</p>
+      <p class="login-box-msg">超市管理系统</p>
 
       <form method="post" @submit.prevent="submit">
         <div class="form-group has-feedback">
@@ -43,7 +43,7 @@
       submit (event) {
         this.$http.post('http://api.letsgo.qfplan.com/authentication', {
           phone: this.phone,
-          password: this.password
+          password: this.password,
         }).then(response => {
           localStorage.setItem('token', response.body.data.token)
           this.$router.push('/')
