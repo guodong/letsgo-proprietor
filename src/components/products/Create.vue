@@ -21,37 +21,36 @@
                 <label class="col-sm-2 control-label">类别</label>
                 <div class="col-sm-10">
                   <div class="row">
-                    <div class="col-md-4">
 
+                    <div class="col-md-4">
                       <select v-model="level1" class="form-control">
                         <option v-for="cate in cates" v-bind:value="cate" v-if="cate.pid == 0">
                           {{ cate.name }}
                         </option>
                       </select>
-
                     </div>
-                    <div class="col-md-4">
 
+                    <div class="col-md-4">
                       <select v-model="level2" class="form-control">
                         <option v-for="cate in cates" v-bind:value="cate" v-if="cate.pid == level1.id">
                           {{ cate.name }}
                         </option>
                       </select>
                     </div>
-                    <div class="col-md-4">
 
+                    <div class="col-md-4">
                       <select v-model="selCategory" class="form-control">
                         <option v-for="cate in cates" v-bind:value="cate" v-if="cate.pid == level2.id">
                           {{ cate.name }}
                         </option>
                       </select>
                     </div>
+
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">名称</label>
-
                 <div class="col-sm-10">
                   <input v-model="product.name" type="text" class="form-control" placeholder="名称">
                 </div>
@@ -64,7 +63,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">属性类型</label>
+                <label class="col-sm-2 control-label">属性</label>
                 <div class="col-sm-10">
                   <multiselect v-model="selProperties" @input="propChange" :options="properties" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" placeholder="属性类型" label="name" track-by="name"></multiselect>
                 </div>
@@ -313,9 +312,19 @@ export default {
         })
       })
       // console.log(this.product)
-      this.$http.post(`${apiUrl}/product`, this.product).then(function(resp) {
-        this.$router.push('/products/list')
-      })
+      this.$http.post(`${apiUrl}/product`, this.product)
+      .then(function(resp) {
+        switch(resp.body.code) {
+          case 0:
+            this.$router.push('/products/list');
+            break;
+          case 1000:
+            this.$router.push('/auth');
+            break;
+          default:
+            console.log('error', resp.message);
+        }
+      });
     }
   }
 }
