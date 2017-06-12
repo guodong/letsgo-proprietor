@@ -312,17 +312,29 @@ export default {
         })
       })
       // console.log(this.product)
-      this.$http.post(`${apiUrl}/product`, this.product)
+      this.$http.post(`${apiUrl}/product`, this.product, {
+        headers: {
+          Authorization: `Bearer {${localStorage.getItem('token')}}`,
+        },
+      })
       .then(function(resp) {
         switch(resp.body.code) {
           case 0:
             this.$router.push('/products/list');
             break;
+          default:
+            console.log('error', resp.message);
+        }
+      })
+      .catch(err => {
+        console.log('error', err);
+        switch(err.body.code) {
           case 1000:
             this.$router.push('/auth');
             break;
           default:
-            console.log('error', resp.message);
+            console.log('error', err);
+            break;
         }
       });
     }
