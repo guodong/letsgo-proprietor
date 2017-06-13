@@ -123,7 +123,8 @@
 </template>
 
 <script>
-  import Print from './Print.vue'
+import Print from './Print.vue';
+import apiUrl from '../../utils/apiUtils.js';
 export default {
   name: 'hello',
   components: {Print},
@@ -134,12 +135,12 @@ export default {
     }
   },
   created () {
-    this.$http.get('http://api.letsgo.qfplan.com/order', {
+    this.$http.get(`${apiUrl}/order`, {
       headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(
-      resp => {
+        Authorization: `Bearer {${localStorage.getItem('token')}}`,
+      },
+    })
+    .then(resp => {
         this.orders = resp.body.data.data
         this.orders.forEach(function(ord) {
           var total = 0;
@@ -150,6 +151,15 @@ export default {
         })
       }
     )
+    .catch(err => {
+      switch(err.body.code) {
+        case 1000:
+          this.$router.push('/auth');
+          break;
+        default:
+          console.log(err);
+      }
+    });
   },
   methods: {
     print: function(order) {
@@ -162,8 +172,6 @@ export default {
       this.$refs.content.style.display = 'block';
       return false;
       }, 500)
-
-
     }
   }
 }
