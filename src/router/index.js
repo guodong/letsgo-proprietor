@@ -6,6 +6,7 @@ import Overview from '@/components/Overview'
 import Products from '@/components/products/Index'
 import ProductsCreate from '@/components/products/Create'
 import Orders from '@/components/orders/Index'
+import TestPage from '@/components/TestPage'
 
 Vue.use(Router)
 
@@ -16,26 +17,30 @@ export default new Router({
       name: 'main',
       component: Main,
       meta: { requiresAuth: true },
-      children: [{
-        path: '/overview',
-        component: Overview
-      }, {
-        path: 'products/list',
-        name: 'products',
-        component: Products
-      }, {
-        path: 'products/create',
-        component: ProductsCreate
-      }, {
-        path: 'orders/list',
-        component: Orders
-      }]
-
-    },
-    {
+      children: [
+        {
+          path: '/overview',
+          component: Overview
+        }, {
+          path: 'products/list',
+          name: 'products',
+          component: Products
+        }, {
+          path: 'products/create',
+          component: ProductsCreate
+        }, {
+          path: 'orders/list',
+          component: Orders
+        }
+      ]
+    }, {
       path: '/auth',
       name: 'auth',
       component: Auth
+    }, {
+      path: '/test',
+      name: 'test',
+      component: TestPage
     }
   ]
 })

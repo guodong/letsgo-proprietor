@@ -163,9 +163,9 @@
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col-md-3" v-for="img in sku.images">
-                      <a href="#" class="thumbnail">
+                      <button onclick="console.log('wenke');" class="thumbnail">
                         <img v-bind:src="img" alt="...">
-                      </a>
+                      </button>
                     </div>
                     <div class="col-md-3">
                       <span v-on:click="upload(sku)" class="info-box-icon bg-light-blue"><i class="fa fa-plus"></i></span>
