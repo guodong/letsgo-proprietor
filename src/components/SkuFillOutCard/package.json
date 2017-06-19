@@ -1,0 +1,6 @@
+{
+  "name": "SkuFillOutCard",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SkuFillOutCard.vue"
+}
