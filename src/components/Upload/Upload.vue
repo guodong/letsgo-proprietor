@@ -23,7 +23,7 @@
         event.stopPropagation()
       },
       handleClick(number = null) {
-        // console.log('number', number)
+        console.log('number', number)
         if (!this.disabled) {
           let input = this.$refs.input
           let _this = this
@@ -39,7 +39,7 @@
           }
         }
       },
-      getBase64Content(files, number) {
+      getBase64Content(files, number = null) {
         // console.log('get base64 content')
         // console.log(files)
         let _this = this
@@ -85,6 +85,7 @@
 <style>
   .upload {
     position: relative;
+    /*padding: 0 1px;*/
   }
   .upload-input {
     display: none !important;

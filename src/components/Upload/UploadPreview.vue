@@ -1,6 +1,6 @@
 <template>
   <ul class="upload-preview" @click="stopPropagation">
-    <li class="upload-preview-item" v-for="(image, number) in images">
+    <li class="upload-preview-item" v-for="(image, number) in images" :key="number">
       <div class="preview-image">
         <img class="image" v-bind:src="image">
       </div>
@@ -41,25 +41,36 @@
   .upload-preview {
     padding: 0;
     margin: 0;
+    width: calc(100% - 30px);
     position: absolute;
     top: 0;
+    left: 15px;
+    right: 15px;
   }
   .upload-preview-item {
     list-style-type: none;
     display: inline-block;
-    margin: 16px;
+    width: 20%;
+    padding: 16px;
     position: relative;
   }
   .preview-image {
-    width: 148px;
-    height: 148px;
+    width: 100%;
     border-radius: 20px;
     overflow: hidden;
+    position: relative;
+  }
+  .preview-image:before {
+    content: "";
+    padding-top: 100%;
+    display: block;
   }
   .image {
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .upload-preview-item:hover .image {
     transform: scale(1.05, 1.05);
@@ -88,8 +99,8 @@
   }
   .delete {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 26px;
+    right: 26px;
     border: none;
     outline: none;
     border-radius: 4px;
