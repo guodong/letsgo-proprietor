@@ -19,10 +19,10 @@
       images: []
     }),
     methods: {
-      stopPropagation(event) {
+      stopPropagation (event) {
         event.stopPropagation()
       },
-      handleClick(number = null) {
+      handleClick (number = null) {
         console.log('number', number)
         if (!this.disabled) {
           let input = this.$refs.input
@@ -33,13 +33,13 @@
             input.multiple = true
           }
           input.click()
-          input.onchange = function(event) {
+          input.onchange = function (event) {
             let files = event.target.files
             _this.getBase64Content(files, number)
           }
         }
       },
-      getBase64Content(files, number = null) {
+      getBase64Content (files, number = null) {
         // console.log('get base64 content')
         // console.log(files)
         let _this = this
@@ -69,7 +69,7 @@
           reader.readAsDataURL(files[i])
         }
       },
-      deleteImage(number) {
+      deleteImage (number) {
         this.images = [
           ...this.images.slice(0, number),
           ...this.images.slice(number + 1)

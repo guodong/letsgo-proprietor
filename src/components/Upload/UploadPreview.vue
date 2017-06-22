@@ -22,14 +22,14 @@
       images: Array
     },
     methods: {
-      stopPropagation(event) {
+      stopPropagation (event) {
         event.stopPropagation()
       },
-      reuploadImage(number) {
+      reuploadImage (number) {
         // console.log('image number', number)
         this.$emit('reupload', number)
       },
-      deleteImage(number) {
+      deleteImage (number) {
         // console.log('image number', number)
         this.$emit('delete', number)
       }

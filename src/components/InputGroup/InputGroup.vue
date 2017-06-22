@@ -32,7 +32,7 @@
       backAddon: String
     },
     methods: {
-      handleInput(event) {
+      handleInput (event) {
         this.$emit('input', event.target.value)
       }
     }

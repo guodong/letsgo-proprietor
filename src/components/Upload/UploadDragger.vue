@@ -18,12 +18,12 @@
       dragover: false
     }),
     methods: {
-      onDragover() {
+      onDragover () {
         if (!this.disabled) {
           this.dragover = true
         }
       },
-      onDrop(event) {
+      onDrop (event) {
         if (!this.disabled) {
           this.dragover = false
           this.$emit('filechange', event.dataTransfer.files)

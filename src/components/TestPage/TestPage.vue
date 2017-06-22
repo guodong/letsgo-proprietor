@@ -5,8 +5,9 @@
     <!-- <alerts></alerts> -->
     <!-- <modal></modal> -->
     <!-- <upload drag="drag"></upload> -->
-    <sku-fill-out-card></sku-fill-out-card>
+    <!-- <sku-fill-out-card></sku-fill-out-card> -->
     <!-- <input-group labelText="名称" helpText="名称错误" :labelSpan="2" :inputSpan="6" placeholder="名称" v-model="input"></input-group> -->
+    <product-base-info-fill-out-card/>
   </div>
 </template>
 
@@ -18,6 +19,7 @@
   import Upload from '../Upload'
   import SkuFillOutCard from '../SkuFillOutCard'
   import InputGroup from '../InputGroup'
+  import ProductBaseInfoFillOutCard from '../ProductBaseInfoFillOutCard'
   export default {
     data: () => ({
       message: 'Test Page',
@@ -25,7 +27,7 @@
       input: 'Name'
     }),
     components: {
-      Box, InfoBox, Alerts, Modal, Upload, SkuFillOutCard, InputGroup
+      Box, InfoBox, Alerts, Modal, Upload, SkuFillOutCard, InputGroup, ProductBaseInfoFillOutCard
     }
   }
 </script>

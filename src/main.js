@@ -5,9 +5,10 @@ import App from './App'
 import router from './router'
 import Multiselect from 'vue-multiselect'
 import Print from './components/orders/Print'
-import Resource from 'vue-resource';
+import Resource from 'vue-resource'
+import store from './store'
 
-Vue.use(Resource);
+Vue.use(Resource)
 Vue.component(Multiselect)
 Vue.config.productionTip = false
 
@@ -40,6 +41,7 @@ router.beforeEach((to, from, next) => {
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App, Multiselect, Print }
 })

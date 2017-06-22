@@ -43,7 +43,7 @@
       submit (event) {
         this.$http.post('http://api.letsgo.qfplan.com/authentication', {
           phone: this.phone,
-          password: this.password,
+          password: this.password
         }).then(response => {
           localStorage.setItem('token', response.body.data.token)
           this.$router.push('/')

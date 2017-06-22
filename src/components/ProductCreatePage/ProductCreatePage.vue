@@ -250,15 +250,15 @@ export default {
     propChange () {
       /** arrange items **/
       var arr = []
-      for (let i in this.selProperties) {
+      for (var i in this.selProperties) {
         var obj = {
           prop: this.selProperties[i],
           checks: []
         }
-        for (let j in this.selProperties[i].values) {
+        for (var j in this.selProperties[i].values) {
           // get check or not
           var checked = false
-          for (let k in this.checkedValues) {
+          for (var k in this.checkedValues) {
             if (this.checkedValues[k].id === this.selProperties[i].values[j].id) {
               checked = true
               break
@@ -273,7 +273,7 @@ export default {
       /** /arrange items **/
 
       var count = 1
-      for (let iArr in arr) {
+      for (var iArr in arr) {
         count *= arr[iArr].checks.length
       }
 
@@ -282,14 +282,14 @@ export default {
       }
 
       this.skus.splice(0, this.skus.length)
-      for (let i = 0; i < count; i++) {
+      for (var i = 0; i < count; i++) {
         var calCount = i
         var sku = {
           images: [],
           state: 1
         }
         sku.properties = []
-        for (let j in arr) {
+        for (var j in arr) {
           var offset = calCount % arr[j].checks.length
           calCount = parseInt(calCount / arr[j].checks.length)
           sku.properties[j] = {
@@ -301,6 +301,7 @@ export default {
       }
     },
     submit () {
+      var me = this
       this.product.category_id = this.selCategory.id
       this.product.skus.forEach(function (sku) {
         sku.values = []

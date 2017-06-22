@@ -76,7 +76,7 @@ export default {
     this.$router.push('/overview')
   },
   methods: {
-    logout: function() {
+    logout: function () {
       localStorage.removeItem('token')
       this.$router.push('/auth')
     }

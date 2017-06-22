@@ -15,8 +15,8 @@ export default {
 
   },
   methods: {
-    print: function() {
-      window.print();
+    print: function () {
+      window.print()
     }
   }
 }

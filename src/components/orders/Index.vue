@@ -123,8 +123,8 @@
 </template>
 
 <script>
-import Print from './Print.vue';
-import apiUrl from '../../utils/apiUtils.js';
+import Print from './Print.vue'
+import apiUrl from '../../utils/apiUtils.js'
 export default {
   name: 'hello',
   components: {Print},
@@ -137,40 +137,40 @@ export default {
   created () {
     this.$http.get(`${apiUrl}/order`, {
       headers: {
-        Authorization: `Bearer {${localStorage.getItem('token')}}`,
-      },
+        Authorization: `Bearer {${localStorage.getItem('token')}}`
+      }
     })
     .then(resp => {
-        this.orders = resp.body.data.data
-        this.orders.forEach(function(ord) {
-          var total = 0;
-          for (var i in ord.skus) {
-            total += ord.skus[i].pivot.price * ord.skus[i].pivot.quantity;
-          }
-          ord.total = total;
-        })
-      }
+      this.orders = resp.body.data.data
+      this.orders.forEach(function (ord) {
+        var total = 0
+        for (var i in ord.skus) {
+          total += ord.skus[i].pivot.price * ord.skus[i].pivot.quantity
+        }
+        ord.total = total
+      })
+    }
     )
     .catch(err => {
-      switch(err.body.code) {
+      switch (err.body.code) {
         case 1000:
-          this.$router.push('/auth');
-          break;
+          this.$router.push('/auth')
+          break
         default:
-          console.log(err);
+          console.log(err)
       }
-    });
+    })
   },
   methods: {
-    print: function(order) {
-      this.printOrder = order;
+    print: function (order) {
+      this.printOrder = order
       setTimeout(() => {
-        this.$refs.print.style.display = 'block';
-      this.$refs.content.style.display = 'none';
-      window.print();
-      this.$refs.print.style.display = 'none';
-      this.$refs.content.style.display = 'block';
-      return false;
+        this.$refs.print.style.display = 'block'
+        this.$refs.content.style.display = 'none'
+        window.print()
+        this.$refs.print.style.display = 'none'
+        this.$refs.content.style.display = 'block'
+        return false
       }, 500)
     }
   }
