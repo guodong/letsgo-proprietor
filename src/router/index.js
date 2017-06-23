@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '@/components/Main'
-import Auth from '@/components/Auth'
 import Overview from '@/components/Overview'
 import Products from '@/components/products/Index'
 import ProductsCreate from '@/components/products/Create'
 import Orders from '@/components/orders/Index'
 import TestPage from '@/components/TestPage'
+import LoginPage from '../components/LoginPage'
 
 Vue.use(Router)
 
@@ -33,10 +33,11 @@ export default new Router({
           component: Orders
         }
       ]
-    }, {
-      path: '/auth',
-      name: 'auth',
-      component: Auth
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
     }, {
       path: '/test',
       name: 'test',

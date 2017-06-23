@@ -1,0 +1,6 @@
+{
+  "name": "LoginPanel",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./LoginPanel.vue"
+}
