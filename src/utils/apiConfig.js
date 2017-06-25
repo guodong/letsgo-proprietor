@@ -1,4 +1,4 @@
-// const apiUrl = 'http://api.letsgo:8080';
-const apiUrl = 'http://api.letsgo.qfplan.com'
+const host = 'http://api.letsgo:8080'
+// const host = 'http://api.letsgo.qfplan.com'
 
-export default apiUrl
+export default host

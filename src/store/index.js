@@ -1,15 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as actions from './actions.js'
-import * as mutations from './mutations.js'
+import mutations from './mutations.js'
 import * as getters from './getters.js'
 import admin from './modules/admin.js'
+import { GET_TOKEN_SUCCESS } from './mutation-type.js'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+let store = new Vuex.Store({
   state: {
-    token: ''
+    token: localStorage.getItem('token') || '',
+    phone: '',
+    password: '',
+    isTokenGetting: false,
+    tokenGetError: '',
+    messages: [
+      // { type: 'danger', text: 'This is a danger message', time: 2000 }
+    ]
   },
   actions,
   getters,
@@ -18,3 +26,14 @@ export default new Vuex.Store({
     admin
   }
 })
+
+store.subscribe((mutation, state) => {
+  // console.log(mutation, state)
+  switch (mutation.type) {
+    case GET_TOKEN_SUCCESS:
+      localStorage.setItem('token', state.token)
+      break
+  }
+})
+
+export default store

@@ -30,9 +30,12 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">属性</label>
       <div class="col-sm-10">
-        <!-- <multiselect v-model="selProperties" @input="propChange" :options="properties" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" placeholder="属性类型" label="name" track-by="name"></multiselect> -->
+        <multiselect :value="properties" @input="inputProperty" :options="propertyOptions" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" placeholder="属性类型">
+          <span slot="noResult">没有找到相关属性</span>
+        </multiselect>
       </div>
     </div>
+    <checkbox-group :options="[{ value: 1, text: 1 }, { value: 2, text: 2 }, { value: 3, text: 3 }, { value: 4, text: 4 }, { value: 5, text: 5 }, { value: 6, text: 6 }]" labelText="测试"/>
   </box>
 </template>
 
@@ -40,10 +43,20 @@
   import Box from '../Box'
   import InputGroup from '../InputGroup'
   import Multiselect from 'vue-multiselect'
+  import CheckboxGroup from '../CheckboxGroup'
   export default {
     name: 'ProductBaseInfoFillOutCard',
+    props: {
+      properties: Array,
+      propertyOptions: Array
+    },
+    methods: {
+      inputProperty (value) {
+        this.$emit('inputProperty', value)
+      }
+    },
     components: {
-      Box, InputGroup, Multiselect
+      Box, InputGroup, Multiselect, CheckboxGroup
     }
   }
 </script>
