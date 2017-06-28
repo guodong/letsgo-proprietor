@@ -13,15 +13,17 @@
     name: 'Upload',
     props: {
       disabled: Boolean,
-      drag: Boolean,
-      images: Array
+      drag: Boolean
     },
+    data: () => ({
+      images: []
+    }),
     methods: {
       stopPropagation (event) {
         event.stopPropagation()
       },
       handleClick (number = null) {
-        console.log('number', number)
+        console.log('image number', number)
         if (!this.disabled) {
           let input = this.$refs.input
           let _this = this
@@ -62,16 +64,15 @@
                 ..._this.images.slice(number + 1)
               ]
             }
+            _this.$emit('upload', [ ..._this.images ])
             // console.log(_this.images)
           }
           reader.readAsDataURL(files[i])
         }
       },
       deleteImage (number) {
-        this.images = [
-          ...this.images.slice(0, number),
-          ...this.images.slice(number + 1)
-        ]
+        this.images.splice(number, 1)
+        this.$emit('upload', [ ...this.images ])
       }
     },
     components: {

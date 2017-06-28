@@ -28,8 +28,8 @@ export default {
     state.token = token
   },
   // { type: success | warning | danger, text, time }
-  [ADD_MESSAGE]: (state, payload) => {
-    state.messages.push(payload)
+  [ADD_MESSAGE]: (state, { text, type = 'success', time = 3000 }) => {
+    state.messages.push({ text, type, time })
   },
   [REMOVE_MESSAGE]: (state, { index }) => {
     state.messages.splice(index, 1)

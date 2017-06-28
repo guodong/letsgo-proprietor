@@ -10,7 +10,7 @@ export const getToken = (phone, password) => new Promise((resolve, reject) => {
       // console.log('getToken', res)
       switch (body.code) {
         case 0:
-          resolve(body.data.token)
+          resolve(`Bearer {${body.data.token}}`)
           break
         default:
           reject(body.message)

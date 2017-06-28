@@ -1,15 +1,11 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Multiselect from 'vue-multiselect'
 import Print from './components/orders/Print'
 import Resource from 'vue-resource'
 import store from './store'
 
 Vue.use(Resource)
-Vue.component(Multiselect)
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
@@ -20,7 +16,7 @@ router.beforeEach((to, from, next) => {
     // if not, redirect to login page.
     if (!localStorage.getItem('token') || localStorage.getItem('token') === 'undefined') {
       next({
-        path: '/auth',
+        path: '/login',
         query: { redirect: to.fullPath }
       })
     } else {
@@ -43,6 +39,6 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App, Multiselect, Print }
+  components: { App, Print }
 })
 

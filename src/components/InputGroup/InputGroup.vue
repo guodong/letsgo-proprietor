@@ -26,7 +26,7 @@
       inputSpan: Number,
       placeholder: String,
       isStatic: Boolean,
-      value: String,
+      value: [ String, Number ],
       isDisabled: Boolean,
       type: String,
       frontAddon: String,
@@ -35,7 +35,7 @@
     },
     methods: {
       handleInput (event) {
-        console.log('handle input', event.target.value)
+        // console.log('handle input', event.target.value)
         this.$emit('input', event.target.value)
       }
     }

@@ -43,6 +43,7 @@
     background-color: #fff;
     transition: opacity 0.3s, transform 0.4s;
     overflow: hidden;
+    z-index: 1031;
     /*color: #bfcbd9;*/
   }
   .message-warning {

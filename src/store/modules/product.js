@@ -1,4 +1,5 @@
 import {
+  ADD_MESSAGE,
   SELECT_PRODUCT_FRONTEND_CATEGORY,
   INPUT_PRODUCT_NAME,
   INPUT_PRODUCT_DESCRIPTION,
@@ -10,17 +11,24 @@ import {
   INPUT_SKU_SELL_UNIT,
   INPUT_SKU_STOCK,
   CHECK_SKU_SELL_STATE,
-  UPLOAD_SKU_IMAGE
+  UPLOAD_SKU_IMAGE,
+  CREATE_PRODUCT_START,
+  CREATE_PRODUCT_FAIL,
+  CREATE_PRODUCT_SUCCESS
 } from '../mutation-type.js'
+import { createProduct } from '../../utils/productApi.js'
 
 const skuInitial = { name: '', barcode: '', price: null, stock: null, unit: '', state: 1, values: [], images: [] }
 const state = {
+  isCreating: false,
+  createMessage: '',
   category_id: null,
   name: '',
   desc: '',
   properties: [],
   // { name, barcode, price, stock, unit, state, values, images: [] }
-  skus: []
+  skus: [],
+  list: []
 }
 
 const getters = {}
@@ -100,15 +108,28 @@ const mutations = {
       state.skus.splice(index, 1, { ...state.skus[index], state: sellState })
     }
   },
-  [UPLOAD_SKU_IMAGE]: (state, { index, number = null, data = '' }) => {
-    let sku = state.skus[index]
-    if (number === null) {
-      sku.images.push(data)
-    } else if (!data) {
-      sku.images.splice(number, 1)
+  [UPLOAD_SKU_IMAGE]: (state, { index, images, values }) => {
+    if (index === undefined) {
+      state.skus.push({ ...skuInitial, images, values })
     } else {
-      sku.images.splice(number, 1, data)
+      state.skus.splice(index, 1, { ...state.skus[index], images })
     }
+  },
+  [CREATE_PRODUCT_START]: state => {
+    state.isCreating = true
+    state.createMessage = ''
+  },
+  [CREATE_PRODUCT_FAIL]: (state, { createMessage }) => {
+    state.isCreating = false
+    state.createMessage = createMessage
+  },
+  [CREATE_PRODUCT_SUCCESS]: (state, { product }) => {
+    state.isCreating = false
+    state.list.push(product)
+    state.name = ''
+    state.desc = ''
+    state.skus = []
+    state.properties = []
   }
 }
 
@@ -152,6 +173,34 @@ const actions = {
   },
   uploadSkuImage ({ commit }, payload) {
     commit(UPLOAD_SKU_IMAGE, payload)
+  },
+  createProduct ({ commit, state, rootState }) {
+    // console.log('create product')
+    if (!state.skus.length) {
+      commit(ADD_MESSAGE, { text: '请填写单品信息', type: 'warning' })
+      return
+    }
+    commit(CREATE_PRODUCT_START)
+    createProduct({
+      product: {
+        category_id: state.category_id,
+        name: state.name,
+        desc: state.desc,
+        skus: state.skus.map(sku => ({
+          ...sku,
+          price: Math.ceil(sku.price * 100)
+        }))
+      },
+      token: rootState.token
+    })
+      .then(product => {
+        commit(ADD_MESSAGE, { text: '新商品添加成功', type: 'success' })
+        commit(CREATE_PRODUCT_SUCCESS, { product })
+      })
+      .catch(createMessage => {
+        commit(ADD_MESSAGE, { text: createMessage, type: 'danger' })
+        commit(CREATE_PRODUCT_FAIL, { createMessage })
+      })
   }
 }
 

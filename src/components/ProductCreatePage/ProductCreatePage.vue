@@ -11,10 +11,10 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" :images="sku.images" :key="index" :index="sku.index" :values="sku.values"/>
+          <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" @uploadImage="uploadSkuImage" :key="index" :index="sku.index" :values="sku.values" :number="index" :productName="name"/>
         </div>
       </div>
-      <button class="btn btn-success btn-block">发布商品</button>
+      <button class="btn btn-success btn-block" @click="createProduct" :disabled="isCreating">发布{{ isCreating ? '中……' : '商品'}}</button>
     </main>
   </div>
 </template>
@@ -69,7 +69,9 @@ export default {
       'inputSkuPrice',
       'inputSkuSellUnit',
       'inputSkuStock',
-      'checkSkuSellState'
+      'checkSkuSellState',
+      'uploadSkuImage',
+      'createProduct'
     ])
   },
   computed: {
@@ -82,7 +84,8 @@ export default {
       properties: state => state.product.properties,
       isPropertyGetting: state => state.property.isPropertyGetting,
       propertyOptions: state => state.property.properties,
-      skus: state => state.product.skus
+      skus: state => state.product.skus,
+      isCreating: state => state.product.isCreating
     }),
     skuData () {
       let valueData = []
@@ -97,7 +100,7 @@ export default {
           let value = property.values.find(pv => pv.id === v)
           properties.push({ name: property.name, value: value.name })
         })
-        valueData.push({ properties, values: value })
+        valueData.push({ properties, values: value, state: 1 })
       }
       let inputedData = []
       // console.log('skus in store', this.skus)
@@ -105,7 +108,7 @@ export default {
         let cardSku = { ...sku, index, properties: [] }
         sku.values.forEach(v => {
           let property = this.propertyOptions.find(p => p.values.find(pv => pv.id === v))
-          let value = property.find(pv => pv.id === v)
+          let value = property.values.find(pv => pv.id === v)
           cardSku.properties.push({ name: property.name, value: value.name })
         })
         inputedData.push(cardSku)

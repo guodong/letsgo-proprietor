@@ -7,7 +7,7 @@
     <!-- <upload drag="drag"></upload> -->
     <!-- <sku-fill-out-card></sku-fill-out-card> -->
     <!-- <input-group type="text" labelText="名称" helpText="名称错误" :labelSpan="2" :inputSpan="6" placeholder="名称" v-model="input"></input-group> -->
-    <product-base-info-fill-out-card :properties="properties" :propertyOptions="propertyOptions" @inputProperty="inputProperty"/>
+    <!-- <product-base-info-fill-out-card :properties="properties" :propertyOptions="propertyOptions" @inputProperty="inputProperty"/> -->
     <!-- <message/> -->
   </div>
 </template>

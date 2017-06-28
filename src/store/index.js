@@ -19,7 +19,8 @@ let store = new Vuex.Store({
     isTokenGetting: false,
     tokenGetError: '',
     messages: [
-      // { type: 'danger', text: 'This is a danger message', time: 2000 }
+      // { type: success|warning|danger, text, time: ms }
+      // { type: 'success', text: 'A success messsage test', time: 4000 }
     ]
   },
   actions,

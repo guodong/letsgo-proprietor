@@ -1,6 +1,6 @@
 <template>
-  <ul class="upload-preview" @click="stopPropagation">
-    <li class="upload-preview-item" v-for="(image, number) in images" :key="number">
+  <ul class="upload-preview">
+    <li class="upload-preview-item" v-for="(image, number) in images" :key="number" @click="stopPropagation">
       <div class="preview-image">
         <img class="image" v-bind:src="image">
       </div>

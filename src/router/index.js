@@ -7,7 +7,6 @@ import Orders from '@/components/orders/Index'
 import TestPage from '@/components/TestPage'
 import LoginPage from '../components/LoginPage'
 import ProductCreatePage from '../components/ProductCreatePage'
-import Create from '../components/products/Create.vue'
 
 Vue.use(Router)
 
@@ -35,10 +34,6 @@ export default new Router({
         {
           path: 'orders/list',
           component: Orders
-        },
-        {
-          path: 'test',
-          component: Create
         }
       ]
     },
