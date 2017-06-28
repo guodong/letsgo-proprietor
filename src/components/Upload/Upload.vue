@@ -13,11 +13,9 @@
     name: 'Upload',
     props: {
       disabled: Boolean,
-      drag: Boolean
+      drag: Boolean,
+      images: Array
     },
-    data: () => ({
-      images: []
-    }),
     methods: {
       stopPropagation (event) {
         event.stopPropagation()

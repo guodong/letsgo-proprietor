@@ -213,6 +213,7 @@ export default {
         this.properties = resp.body.data
         this.product.skus = this.skus
         this.propChange()
+        console.log('properties', this.properties)
       }
     )
     this.$http.get(`${apiUrl}/backendcategory`).then(

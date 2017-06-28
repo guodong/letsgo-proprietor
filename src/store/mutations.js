@@ -27,6 +27,7 @@ export default {
     state.isTokenGetting = false
     state.token = token
   },
+  // { type: success | warning | danger, text, time }
   [ADD_MESSAGE]: (state, payload) => {
     state.messages.push(payload)
   },

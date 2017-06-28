@@ -1,353 +1,139 @@
 <template>
   <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>商品管理<small>添加商品</small></h1>
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="box box-info">
-          <div class="box-header with-border">
-            <h3 class="box-title">商品信息</h3>
-          </div>
-          <!-- /.box-header -->
-          <!-- form start -->
-          <form class="form-horizontal">
-            <div class="box-body">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">类别</label>
-                <div class="col-sm-10">
-                  <div class="row">
-
-                    <div class="col-md-4">
-                      <select v-model="level1" class="form-control">
-                        <option v-for="cate in cates" v-bind:value="cate" v-if="cate.pid == 0">
-                          {{ cate.name }}
-                        </option>
-                      </select>
-                    </div>
-
-                    <div class="col-md-4">
-                      <select v-model="level2" class="form-control">
-                        <option v-for="cate in cates" v-bind:value="cate" v-if="cate.pid == level1.id">
-                          {{ cate.name }}
-                        </option>
-                      </select>
-                    </div>
-
-                    <div class="col-md-4">
-                      <select v-model="selCategory" class="form-control">
-                        <option v-for="cate in cates" v-bind:value="cate" v-if="cate.pid == level2.id">
-                          {{ cate.name }}
-                        </option>
-                      </select>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">名称</label>
-                <div class="col-sm-10">
-                  <input v-model="product.name" type="text" class="form-control" placeholder="名称">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">描述</label>
-
-                <div class="col-sm-10">
-                  <textarea v-model="product.desc" name="desc" class="form-control" placeholder="描述"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">属性</label>
-                <div class="col-sm-10">
-                  <multiselect v-model="selProperties" @input="propChange" :options="properties" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" placeholder="属性类型" label="name" track-by="name"></multiselect>
-                </div>
-              </div>
-              <div class="form-group" v-for="prop in selProperties">
-                <label class="col-sm-2 control-label">{{prop.name}}</label>
-                <div class="col-sm-10">
-                  <div class="checkbox pull-left" style="min-width: 80px;" v-for="value in prop.values">
-
-                    <label>
-                      <input v-on:change="propChange" type="checkbox" v-bind:value="value" v-model="checkedValues">
-                      {{value.name}}
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- /.box-body -->
-          </form>
+    <header class="content-header">
+      <h1>商品管理<small>添加商品</small></h1>
+    </header>
+    <main class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <product-base-info-fill-out-card :frontendCategories="frontendCategories" :categoryId="categoryId" @selectCategory="selectCategory" @inputName="inputName" @inputDescription="inputDescription" :name="name" :desc="desc" :properties="properties" :propertyOptions="propertyOptions" @selectProperty="selectProperty" @checkValue="checkValue"/>
         </div>
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12" v-for="(sku, index) in skus">
-        <div class="box box-warning">
-          <div class="box-header with-border">
-            <h3 class="box-title">单品 #{{index + 1}}</h3>
-          </div>
-          <!-- /.box-header -->
-          <!-- form start -->
-          <form class="form-horizontal">
-            <div class="box-body">
-              <div class="form-group" v-for="prop in sku.properties">
-                <label class="col-sm-2 control-label">{{prop.prop.name}}</label>
-
-                <div class="col-sm-10">
-                  {{prop.value.name}}
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">名称</label>
-
-                <div class="col-sm-10">
-                  <input v-model="sku.name" type="text" class="form-control" placeholder="名称">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">条形码</label>
-
-                <div class="col-sm-10">
-                  <input v-model="sku.barcode" type="text" class="form-control" placeholder="条形码">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">价格</label>
-
-                <div class="col-sm-10">
-                  <div class="input-group">
-                    <span class="input-group-addon">¥</span><input v-model="sku.price" type="text" class="form-control" placeholder="价格">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">单位</label>
-
-                <div class="col-sm-10">
-                  <input type="text" v-model="sku.unit" class="form-control" placeholder="单位" value="个">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">库存</label>
-
-                <div class="col-sm-10">
-                  <input v-model="sku.stock" type="text" class="form-control" placeholder="库存">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">销售状态</label>
-                <div class="col-sm-10">
-                  <div class="radio">
-                    <label>
-                      <input v-model="sku.state" type="radio" name="optionsRadios" value="1" checked="">
-                      上架
-                    </label>
-                    <label>
-                      <input v-model="sku.state" type="radio" name="optionsRadios" value="2">
-                      下架
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">图片</label>
-
-                <div class="col-sm-10">
-                  <div class="row">
-                    <div class="col-md-3" v-for="img in sku.images">
-                      <button onclick="console.log('wenke');" class="thumbnail">
-                        <img v-bind:src="img" alt="...">
-                      </button>
-                    </div>
-                    <div class="col-md-3">
-                      <span v-on:click="upload(sku)" class="info-box-icon bg-light-blue"><i class="fa fa-plus"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </form>
+      <div class="row">
+        <div class="col-md-12">
+          <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" :images="sku.images" :key="index" :index="sku.index" :values="sku.values"/>
         </div>
       </div>
-    </div>
-    <button v-on:click="submit" style="width: 100%;" type="button" class="btn btn-success">发布商品</button>
-  </section>
-  <!-- /.content -->
-    <input style="display: none;" id="browse" type="file" v-on:change="previewFiles()" multiple>
+      <button class="btn btn-success btn-block">发布商品</button>
+    </main>
   </div>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-import apiUrl from '../../utils/apiUtils.js'
+import ProductBaseInfoFillOutCard from '../ProductBaseInfoFillOutCard'
+import SkuFillOutCard from '../SkuFillOutCard'
+import { mapState, mapActions } from 'vuex'
+const getValuesCombination = properties => {
+  properties = properties.filter(property => property.values.find(value => value.checked))
+  if (!properties.length) {
+    return []
+  }
+  // console.log('properties', properties)
+  let result = []
+  let tmp = []
+  let n = 0
+  let getResult = n => {
+    for (let i = 0; i < properties[n].values.length; i++) {
+      let value = properties[n].values[i]
+      // console.log('n =', n, ', i =', i, ', value =', value);
+      if (!value.checked) {
+        continue
+      }
+      tmp.push(value.id)
+      // console.log('n =', n, ', i =', i, ', tmp =', tmp);
+      if (n < properties.length - 1) {
+        getResult(n + 1)
+      } else {
+        result.push(tmp.concat([]))
+      }
+      tmp.pop()
+    }
+  }
+  getResult(n)
+  // console.log(result);
+  return result
+}
 export default {
-  name: 'hello',
-  components: { Multiselect },
-  data () {
-    return {
-      product: {},
-      properties: [],
-      selProperties: [],
-      checkedValues: [],
-      skus: [],
-      categories: [],
-      level1: {children: []},
-      level2: {children: []},
-      selCategory: '',
-      currentSku: null,
-      cates: []
+  name: 'ProductCreatePage',
+  methods: {
+    ...mapActions([
+      'getFrontendCategory',
+      'selectCategory',
+      'inputName',
+      'inputDescription',
+      'getProperty',
+      'selectProperty',
+      'checkValue',
+      'inputSkuName',
+      'inputSkuBarcode',
+      'inputSkuPrice',
+      'inputSkuSellUnit',
+      'inputSkuStock',
+      'checkSkuSellState'
+    ])
+  },
+  computed: {
+    ...mapState({
+      frontendCategories: state => state.category.front.sort((curr, next) => curr.sort < next.sort),
+      isFrontendCategoryGetting: state => state.category.isFrontGetting,
+      categoryId: state => state.product.category_id,
+      name: state => state.product.name,
+      desc: state => state.product.desc,
+      properties: state => state.product.properties,
+      isPropertyGetting: state => state.property.isPropertyGetting,
+      propertyOptions: state => state.property.properties,
+      skus: state => state.product.skus
+    }),
+    skuData () {
+      let valueData = []
+      // let _this = this
+      for (let value of getValuesCombination(this.properties)) {
+        if (this.skus.find(v => JSON.stringify(v.values) === JSON.stringify(value))) {
+          continue
+        }
+        let properties = []
+        value.forEach(v => {
+          let property = this.propertyOptions.find(p => p.values.find(pv => pv.id === v))
+          let value = property.values.find(pv => pv.id === v)
+          properties.push({ name: property.name, value: value.name })
+        })
+        valueData.push({ properties, values: value })
+      }
+      let inputedData = []
+      // console.log('skus in store', this.skus)
+      this.skus.forEach((sku, index) => {
+        let cardSku = { ...sku, index, properties: [] }
+        sku.values.forEach(v => {
+          let property = this.propertyOptions.find(p => p.values.find(pv => pv.id === v))
+          let value = property.find(pv => pv.id === v)
+          cardSku.properties.push({ name: property.name, value: value.name })
+        })
+        inputedData.push(cardSku)
+      })
+      let skuData = [ ...inputedData, ...valueData ]
+      if (!skuData.length) {
+        skuData.push({
+          state: 1
+        })
+      }
+      return skuData
     }
   },
   created () {
-    this.$http.get(`${apiUrl}/property`).then(
-      resp => {
-        this.properties = resp.body.data
-        this.product.skus = this.skus
-        this.propChange()
-      }
-    )
-    this.$http.get(`${apiUrl}/backendcategory`).then(
-      resp => {
-        this.cates = resp.body.data
-      }
-    )
-  },
-  methods: {
-    previewFiles () {
-      var sku = this.currentSku
-      var files = document.querySelector('input[type=file]').files
-
-      function readAndPreview (file) {
-        // Make sure `file.name` matches our extensions criteria
-        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-          var reader = new FileReader()
-
-          reader.addEventListener('load', function () {
-            sku.images.push(reader.result)
-          }, false)
-
-          reader.readAsDataURL(file)
-        }
-      }
-
-      if (files) {
-        [].forEach.call(files, readAndPreview)
-      }
-    },
-    upload (sku) {
-      this.currentSku = sku
-      document.querySelector('input[type=file]').click()
-    },
-    propChange () {
-      /** arrange items **/
-      var arr = []
-      for (var i in this.selProperties) {
-        var obj = {
-          prop: this.selProperties[i],
-          checks: []
-        }
-        for (var j in this.selProperties[i].values) {
-          // get check or not
-          var checked = false
-          for (var k in this.checkedValues) {
-            if (this.checkedValues[k].id === this.selProperties[i].values[j].id) {
-              checked = true
-              break
-            }
-          }
-          if (checked) {
-            obj.checks.push(this.selProperties[i].values[j])
-          }
-        }
-        arr.push(obj)
-      }
-      /** /arrange items **/
-
-      var count = 1
-      for (var iArr in arr) {
-        count *= arr[iArr].checks.length
-      }
-
-      if (count === 0) {
-        return
-      }
-
-      this.skus.splice(0, this.skus.length)
-      for (var i = 0; i < count; i++) {
-        var calCount = i
-        var sku = {
-          images: [],
-          state: 1
-        }
-        sku.properties = []
-        for (var j in arr) {
-          var offset = calCount % arr[j].checks.length
-          calCount = parseInt(calCount / arr[j].checks.length)
-          sku.properties[j] = {
-            prop: arr[j].prop,
-            value: arr[j].checks[offset]
-          }
-        }
-        this.skus.push(sku)
-      }
-    },
-    submit () {
-      var me = this
-      this.product.category_id = this.selCategory.id
-      this.product.skus.forEach(function (sku) {
-        sku.values = []
-        sku.properties.forEach(function (prop) {
-          sku.values.push(prop.value.id)
-        })
-      })
-      // console.log(this.product)
-      this.$http.post(`${apiUrl}/product`, this.product, {
-        headers: {
-          Authorization: `Bearer {${localStorage.getItem('token')}}`
-        }
-      })
-      .then(function (resp) {
-        switch (resp.body.code) {
-          case 0:
-            this.$router.push('/products/list')
-            break
-          default:
-            console.log('error', resp.message)
-        }
-      })
-      .catch(err => {
-        console.log('error', err)
-        switch (err.body.code) {
-          case 1000:
-            this.$router.push('/auth')
-            break
-          default:
-            console.log('error', err)
-            break
-        }
-      })
+    // console.log('frontend category', this.frontendCategories)
+    if (this.frontendCategories.length === 0 && !this.isFrontendCategoryGetting) {
+      this.getFrontendCategory()
     }
+    if (this.propertyOptions.length === 0 && !this.isPropertyGetting) {
+      this.getProperty()
+    }
+  },
+  components: {
+    ProductBaseInfoFillOutCard,
+    SkuFillOutCard
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  .info-box-icon {
-    cursor: pointer;
-  }
+<style>
 </style>

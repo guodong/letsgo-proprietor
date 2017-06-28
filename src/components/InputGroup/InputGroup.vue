@@ -8,7 +8,7 @@
         <div class="input-group-addon" v-if="backAddon">{{ backAddon }}</div>
       </div>
       <input v-else-if="!isStatic && type" :type="type" class="form-control" :placeholder="placeholder" :value="value" @input="handleInput">
-      <textarea :value="value" @input="handleInput" class="form-control" v-else></textarea>
+      <textarea v-else-if="!isStatic" :value="value" @input="handleInput" class="form-control"></textarea>
       <span v-if="feedback" class="glyphicon form-control-feedback" :class="`glyphicon-${feedback}`"></span>
       <span v-if="helpText" class="help-block">{{helpText}}</span>
       <p v-if="isStatic" class="form-control-static">{{value}}</p>
@@ -35,6 +35,7 @@
     },
     methods: {
       handleInput (event) {
+        console.log('handle input', event.target.value)
         this.$emit('input', event.target.value)
       }
     }
