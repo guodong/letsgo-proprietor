@@ -17,7 +17,7 @@
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">图片</label>
-      <upload :drag="true" class="col-sm-10" @upload="uploadImage"/>
+      <upload :initialImages="images" :drag="true" class="col-sm-10" @upload="uploadImage"/>
     </div>
   </box>
 </template>
@@ -46,6 +46,7 @@
       unit: String,
       stock: Number,
       state: Number,
+      images: Array,
       deleteAble: Boolean
     },
     methods: {

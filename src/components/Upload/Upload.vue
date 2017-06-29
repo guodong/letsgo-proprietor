@@ -13,11 +13,17 @@
     name: 'Upload',
     props: {
       disabled: Boolean,
-      drag: Boolean
+      drag: Boolean,
+      initialImages: {
+        type: Array,
+        default: () => ([])
+      }
     },
-    data: () => ({
-      images: []
-    }),
+    data () {
+      return {
+        images: this.initialImages
+      }
+    },
     methods: {
       stopPropagation (event) {
         event.stopPropagation()
