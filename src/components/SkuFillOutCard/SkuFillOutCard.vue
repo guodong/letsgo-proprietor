@@ -1,5 +1,5 @@
 <template>
-  <box class="form-horizontal" :title="`单品 #${number + 1}: ${productName}${name ? `(${name})` : ''}`" :miniAble="true" :delAble="true">
+  <box class="form-horizontal" :title="`单品 #${number + 1}: ${productName}${name ? `(${name})` : ''}`" :miniAble="true" :delAble="true" @deleteBox="deleteSku">
     <input-group type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称" :value="name" @input="inputName"/>
     <input-group v-for="(property, index) in properties" :isStatic="true" :labelText="property.name" :value="property.value" :labelSpan="2" :inputSpan="10" :key="index"/>
     <input-group type="number" labelText="条码" :labelSpan="2" :inputSpan="10" placeholder="条形码" :value="barcode" @input="inputBarcode"/>
@@ -70,6 +70,9 @@
       uploadImage (images) {
         // console.log('upload image', images)
         this.$emit('uploadImage', { index: this.index, images, values: this.values })
+      },
+      deleteSku () {
+        this.$emit('deleteSku', { index: this.index })
       }
     },
     components: {

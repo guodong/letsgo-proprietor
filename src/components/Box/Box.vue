@@ -11,7 +11,7 @@
         <button class="btn btn-box-tool" v-if="miniAble" data-widget="collapse"><i class="fa fa-minus"></i></button>
 
         <!-- removable -->
-        <button class="btn btn-box-tool" v-if="delAble" data-widget="remove"><i class="fa fa-times"></i></button>
+        <button class="btn btn-box-tool" v-if="delAble" data-widget="remove" @click="deleteBox"><i class="fa fa-times"></i></button>
 
         <!-- collapsable and removable -->
         <!-- <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button> -->
@@ -32,6 +32,11 @@
       title: String,
       miniAble: Boolean,
       delAble: Boolean
+    },
+    methods: {
+      deleteBox (event) {
+        this.$emit('deleteBox')
+      }
     }
   }
 </script>
