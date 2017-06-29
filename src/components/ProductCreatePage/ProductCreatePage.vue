@@ -11,7 +11,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" @uploadImage="uploadSkuImage" :key="index" :index="sku.index" :values="sku.values" :number="index" :productName="name"/>
+          <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" @uploadImage="uploadSkuImage" :key="index" :index="sku.index" :values="sku.values" :number="index" :productName="name" @deleteSku="deleteSku" :deleteAble="skuData.length > 1"/>
         </div>
       </div>
       <button class="btn btn-success btn-block" @click="createProduct" :disabled="isCreating">发布{{ isCreating ? '中……' : '商品'}}</button>
@@ -71,6 +71,7 @@ export default {
       'inputSkuStock',
       'checkSkuSellState',
       'uploadSkuImage',
+      'deleteSku',
       'createProduct'
     ])
   },

@@ -1,5 +1,5 @@
 <template>
-  <box class="form-horizontal" :title="`单品 #${number + 1}: ${productName}${name ? `(${name})` : ''}`" :miniAble="true" :delAble="true" @deleteBox="deleteSku">
+  <box class="form-horizontal" :title="`单品 #${number + 1}: ${productName}${name ? `(${name})` : ''}`" :miniAble="true" :delAble="deleteAble" @deleteBox="deleteSku">
     <input-group type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称" :value="name" @input="inputName"/>
     <input-group v-for="(property, index) in properties" :isStatic="true" :labelText="property.name" :value="property.value" :labelSpan="2" :inputSpan="10" :key="index"/>
     <input-group type="number" labelText="条码" :labelSpan="2" :inputSpan="10" placeholder="条形码" :value="barcode" @input="inputBarcode"/>
@@ -45,7 +45,8 @@
       price: Number,
       unit: String,
       stock: Number,
-      state: Number
+      state: Number,
+      deleteAble: Boolean
     },
     methods: {
       inputName (name) {

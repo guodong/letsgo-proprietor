@@ -12,6 +12,7 @@ import {
   INPUT_SKU_STOCK,
   CHECK_SKU_SELL_STATE,
   UPLOAD_SKU_IMAGE,
+  DELETE_SKU,
   CREATE_PRODUCT_START,
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_SUCCESS
@@ -115,6 +116,11 @@ const mutations = {
       state.skus.splice(index, 1, { ...state.skus[index], images })
     }
   },
+  [DELETE_SKU]: (state, { index }) => {
+    if (index !== undefined) {
+      state.skus.splice(index, 1)
+    }
+  },
   [CREATE_PRODUCT_START]: state => {
     state.isCreating = true
     state.createMessage = ''
@@ -173,6 +179,9 @@ const actions = {
   },
   uploadSkuImage ({ commit }, payload) {
     commit(UPLOAD_SKU_IMAGE, payload)
+  },
+  deleteSku ({ commit }, payload) {
+    commit(DELETE_SKU, payload)
   },
   createProduct ({ commit, state, rootState }) {
     // console.log('create product')
