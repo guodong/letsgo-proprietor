@@ -39,6 +39,7 @@ const mutations = {
     state.category_id = categoryId
   },
   [INPUT_PRODUCT_NAME]: (state, { name }) => {
+    // console.log('input product name', name)
     state.name = name
   },
   [INPUT_PRODUCT_DESCRIPTION]: (state, { desc }) => {
@@ -144,6 +145,7 @@ const actions = {
     commit(SELECT_PRODUCT_FRONTEND_CATEGORY, payload)
   },
   inputName ({ commit }, payload) {
+    // console.log('input name payload', payload)
     commit(INPUT_PRODUCT_NAME, payload)
   },
   inputDescription ({ commit }, payload) {

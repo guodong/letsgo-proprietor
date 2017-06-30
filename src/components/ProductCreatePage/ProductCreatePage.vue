@@ -89,6 +89,7 @@ export default {
       isCreating: state => state.product.isCreating
     }),
     skuData () {
+      // console.log('generate sku data')
       let valueData = []
       // let _this = this
       for (let value of getValuesCombination(this.properties)) {

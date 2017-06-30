@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input-group type="text" placeholder="手机号" feedback="user" :value="phone" @input="inputPhone"/>
-    <input-group type="password" placeholder="密码" feedback="lock" :value="password" @input="inputPassword"/>
+    <input-group type="text" placeholder="手机号" feedback="user" :initialValue="phone" @input="inputPhone"/>
+    <input-group type="password" placeholder="密码" feedback="lock" :initialValue="password" @input="inputPassword"/>
     <button @click="login" class="btn btn-primary btn-block">{{ isLogining ? '登录中……' : '登录' }}</button>
   </div>
 </template>

@@ -22,8 +22,8 @@
         </div>
       </div>
     </div>
-    <input-group :value="name" @input="inputName" type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称"/>
-    <input-group :value="desc" @input="inputDescription" labelText="描述" :labelSpan="2" :inputSpan="10" placeholder="描述"/>
+    <input-group :initialValue="name" @input="inputName" type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称"/>
+    <input-group :initialValue="desc" @input="inputDescription" labelText="描述" :labelSpan="2" :inputSpan="10" placeholder="描述"/>
     <div class="form-group">
       <label class="col-sm-2 control-label">属性</label>
       <div class="col-sm-10">
@@ -57,10 +57,12 @@
         return this.frontendCategories.find(v => v.id === categoryId)
       },
       category2 () {
+        console.log('category 3', this.category3)
         let categoryId = this.category3.pid
         return this.frontendCategories.find(v => v.id === categoryId)
       },
       category3 () {
+        console.log('category id', this.categoryId, typeof this.categoryId)
         let categoryId = this.categoryId
         return this.frontendCategories.find(v => v.id === categoryId)
       }

@@ -26,17 +26,25 @@
       inputSpan: Number,
       placeholder: String,
       isStatic: Boolean,
-      value: [ String, Number ],
+      initialValue: [ String, Number ],
       isDisabled: Boolean,
       type: String,
       frontAddon: String,
       backAddon: String,
       feedback: String
     },
+    data () {
+      return {
+        value: this.initialValue
+      }
+    },
     methods: {
       handleInput (event) {
         // console.log('handle input', event.target.value)
-        this.$emit('input', event.target.value)
+        let _this = this
+        setTimeout(() => {
+          _this.$emit('input', event.target.value)
+        }, 500)
       }
     }
   }
