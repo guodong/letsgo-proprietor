@@ -22,8 +22,8 @@
         </div>
       </div>
     </div>
-    <input-group :initialValue="name" @input="inputName" type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称"/>
-    <input-group :initialValue="desc" @input="inputDescription" labelText="描述" :labelSpan="2" :inputSpan="10" placeholder="描述"/>
+    <input-group :value="name" @input="inputName" type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称"/>
+    <input-group :value="desc" @input="inputDescription" labelText="描述" :labelSpan="2" :inputSpan="10" placeholder="描述"/>
     <div class="form-group">
       <label class="col-sm-2 control-label">属性</label>
       <div class="col-sm-10">

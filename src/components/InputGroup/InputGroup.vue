@@ -26,17 +26,12 @@
       inputSpan: Number,
       placeholder: String,
       isStatic: Boolean,
-      initialValue: [ String, Number ],
+      value: [ String, Number ],
       isDisabled: Boolean,
       type: String,
       frontAddon: String,
       backAddon: String,
       feedback: String
-    },
-    data () {
-      return {
-        value: this.initialValue
-      }
     },
     methods: {
       handleInput (event) {
