@@ -14,14 +14,9 @@
     props: {
       disabled: Boolean,
       drag: Boolean,
-      initialImages: {
+      images: {
         type: Array,
         default: () => ([])
-      }
-    },
-    data () {
-      return {
-        images: this.initialImages
       }
     },
     methods: {
@@ -49,8 +44,9 @@
         // console.log('get base64 content')
         // console.log(files)
         let _this = this
-        if (number === null) {
-          _this.images = []
+        let images = []
+        if (number !== null) {
+          images = [ ...this.images ]
         }
         for (let i = 0; i < files.length; i++) {
           if (i > 4) {
@@ -61,24 +57,20 @@
             // console.log(number, reader.result)
             if (number === null) {
               // console.log('number === null')
-              _this.images.push(reader.result)
+              images.push(reader.result)
             } else {
               // console.log('image number', number)
-              _this.images = [
-                ..._this.images.slice(0, number),
-                reader.result,
-                ..._this.images.slice(number + 1)
-              ]
+              images = images.splice(number, 1, reader.result)
             }
-            _this.$emit('upload', [ ..._this.images ])
+            _this.$emit('upload', images)
             // console.log(_this.images)
           }
           reader.readAsDataURL(files[i])
         }
       },
       deleteImage (number) {
-        this.images.splice(number, 1)
-        this.$emit('upload', [ ...this.images ])
+        let images = [ ...this.images ]
+        this.$emit('upload', images.splice(number, 1))
       }
     },
     components: {
