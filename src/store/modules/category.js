@@ -20,18 +20,25 @@ const actions = {
     commit(GET_FRONTEND_CATEGORY_START)
     getFrontendCategory()
       .then(front => {
-        commit(GET_FRONTEND_CATEGORY_SUCCESS, { front })
         let categoryId = rootState.product.category_id
+        // console.log('product category id', categoryId)
         if (categoryId && front.find(v => v.id === categoryId)) {
+          // console.log('exist product category id')
           return
         } else {
-          let category = front.find(v => v.pid === 0)
+          // console.log('frontend category', front)
+          let category = front.find(v => Number(v.pid) === 0)
+          // console.log('category find', category)
           let code = category.code.substr(0, 2) + '0101'
           categoryId = front.find(v => v.code === code).id
+          // console.log('initial product create category id', categoryId)
           commit(SELECT_PRODUCT_FRONTEND_CATEGORY, { categoryId })
         }
+        commit(GET_FRONTEND_CATEGORY_SUCCESS, { front })
+        // console.log('execute here')
       })
       .catch(frontGetMessage => {
+        // console.log('get frontend category error', frontGetMessage)
         commit(ADD_MESSAGE, { text: frontGetMessage, type: 'danger' })
         commit(GET_FRONTEND_CATEGORY_FAIL, { frontGetMessage })
       })
