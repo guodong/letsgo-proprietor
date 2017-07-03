@@ -36,7 +36,10 @@
     methods: {
       handleInput (event) {
         // console.log('handle input', event.target.value)
-        this.$emit('input', event.target.value)
+        let _this = this
+        setTimeout(() => {
+          _this.$emit('input', event.target.value)
+        }, 500)
       }
     }
   }
