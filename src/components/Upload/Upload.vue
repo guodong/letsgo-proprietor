@@ -56,6 +56,7 @@
         }
         // console.log('images', images)
         let loop = files.length > 4 ? 4 : files.length - 1
+        let loopCount = loop + 1
         // console.log('loop times', loop)
         for (let i = 0; i <= loop; i++) {
           let reader = new FileReader()
@@ -68,7 +69,8 @@
               // console.log('image number', number)
               images.splice(number, 1, reader.result)
             }
-            if (i === loop) {
+            // console.log('image number', i, images)
+            if (--loopCount === 0) {
               // console.log('images will be emitted', images)
               _this.$emit('upload', [ ...images ])
             }
