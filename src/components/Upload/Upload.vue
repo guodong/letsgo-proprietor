@@ -28,7 +28,7 @@
       },
       handleClick (number = null) {
         if (!this.disabled && !this.isUploading) {
-          // console.log('image number', number)
+          console.log('image number', number)
           this.isUploading = true
           let input = this.$refs.input
           let _this = this
@@ -79,7 +79,8 @@
       },
       deleteImage (number) {
         let images = [ ...this.images ]
-        this.$emit('upload', images.splice(number, 1))
+        images.splice(number, 1)
+        this.$emit('upload', images)
       }
     },
     components: {
