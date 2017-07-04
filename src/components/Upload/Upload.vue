@@ -19,13 +19,17 @@
         default: () => ([])
       }
     },
+    data: () => ({
+      isUploading: false
+    }),
     methods: {
       stopPropagation (event) {
         event.stopPropagation()
       },
       handleClick (number = null) {
-        console.log('image number', number)
-        if (!this.disabled) {
+        if (!this.disabled && !this.isUploading) {
+          console.log('image number', number)
+          this.isUploading = true
           let input = this.$refs.input
           let _this = this
           if (number !== null) {
@@ -44,14 +48,16 @@
         // console.log('get base64 content')
         // console.log(files)
         let _this = this
+        this.isUploading = false
         let images = []
         if (number !== null) {
+          console.log('initial images with props')
           images = [ ...this.images ]
         }
-        for (let i = 0; i < files.length; i++) {
-          if (i > 4) {
-            break
-          }
+        console.log('images', images)
+        let loop = files.length > 4 ? 4 : files.length - 1
+        console.log('loop times', loop)
+        for (let i = 0; i <= loop; i++) {
           let reader = new FileReader()
           reader.onload = () => {
             // console.log(number, reader.result)
@@ -60,9 +66,12 @@
               images.push(reader.result)
             } else {
               // console.log('image number', number)
-              images = images.splice(number, 1, reader.result)
+              images.splice(number, 1, reader.result)
             }
-            _this.$emit('upload', images)
+            if (i === loop) {
+              console.log('images will be emitted', images)
+              _this.$emit('upload', [ ...images ])
+            }
             // console.log(_this.images)
           }
           reader.readAsDataURL(files[i])
