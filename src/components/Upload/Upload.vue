@@ -28,7 +28,7 @@
       },
       handleClick (number = null) {
         if (!this.disabled && !this.isUploading) {
-          console.log('image number', number)
+          // console.log('image number', number)
           this.isUploading = true
           let input = this.$refs.input
           let _this = this

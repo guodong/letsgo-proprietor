@@ -57,12 +57,12 @@
         return this.frontendCategories.find(v => v.id === categoryId)
       },
       category2 () {
-        console.log('category 3', this.category3)
+        // console.log('category 3', this.category3)
         let categoryId = this.category3.pid
         return this.frontendCategories.find(v => v.id === categoryId)
       },
       category3 () {
-        console.log('category id', this.categoryId, typeof this.categoryId)
+        // console.log('category id', this.categoryId, typeof this.categoryId)
         let categoryId = this.categoryId
         return this.frontendCategories.find(v => v.id === categoryId)
       }
