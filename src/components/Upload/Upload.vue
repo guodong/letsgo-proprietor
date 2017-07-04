@@ -28,7 +28,7 @@
       },
       handleClick (number = null) {
         if (!this.disabled && !this.isUploading) {
-          console.log('image number', number)
+          // console.log('image number', number)
           this.isUploading = true
           let input = this.$refs.input
           let _this = this
@@ -51,12 +51,12 @@
         this.isUploading = false
         let images = []
         if (number !== null) {
-          console.log('initial images with props')
+          // console.log('initial images with props')
           images = [ ...this.images ]
         }
-        console.log('images', images)
+        // console.log('images', images)
         let loop = files.length > 4 ? 4 : files.length - 1
-        console.log('loop times', loop)
+        // console.log('loop times', loop)
         for (let i = 0; i <= loop; i++) {
           let reader = new FileReader()
           reader.onload = () => {
@@ -69,7 +69,7 @@
               images.splice(number, 1, reader.result)
             }
             if (i === loop) {
-              console.log('images will be emitted', images)
+              // console.log('images will be emitted', images)
               _this.$emit('upload', [ ...images ])
             }
             // console.log(_this.images)
