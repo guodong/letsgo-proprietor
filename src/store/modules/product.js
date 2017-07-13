@@ -18,9 +18,12 @@ import {
   CREATE_PRODUCT_SUCCESS,
   GET_PRODUCT_LIST_START,
   GET_PRODUCT_LIST_FAIL,
-  GET_PRODUCT_LIST_SUCCESS
+  GET_PRODUCT_LIST_SUCCESS,
+  MODIFY_SKU_START,
+  MODIFY_SKU_FAIL,
+  MODIFY_SKU_SUCCESS
 } from '../mutation-type.js'
-import { createProduct, getProductList } from '../../utils/productApi.js'
+import { createProduct, getProductList, editSku } from '../../utils/productApi.js'
 import Vue from 'vue'
 
 const skuInitial = { name: '', barcode: '', price: null, stock: null, unit: '', state: 1, values: [], images: [] }
@@ -34,13 +37,12 @@ const state = {
   // { name, barcode, price, stock, unit, state, values, images: [] }
   skus: [],
   isListGetting: false,
-  listGetMessage: ''
+  listGetMessage: '',
+  isSkuModifying: false,
+  skuModifyMessage: ''
 }
 
 const getters = {
-  // list: state => key => state[key] && state[key].data,
-  // currentPage: state => key => state[key] && state[key].current_page,
-  // lastPage: state => key => state[key] && state[key].last_page
 }
 
 const mutations = {
@@ -160,6 +162,18 @@ const mutations = {
     // state[key] = data
     Vue.set(state, key, data)
     state.isListGetting = false
+  },
+  [MODIFY_SKU_START]: state => {
+    state.isSkuModifying = true
+    state.skuModifyMessage = ''
+  },
+  [MODIFY_SKU_FAIL]: (state, { skuModifyMessage }) => {
+    state.isSkuModifying = false
+    state.skuModifyMessage = skuModifyMessage
+  },
+  [MODIFY_SKU_SUCCESS]: (state, { key, productIndex, skuIndex, skuData }) => {
+    state.isSkuModifying = false
+    state[key].data[productIndex].skus.splice(skuIndex, 1, skuData)
   }
 }
 
@@ -253,6 +267,20 @@ const actions = {
           })
         })
     }
+  },
+  modifySku: ({ commit, state, rootState }, { key, productIndex, skuIndex, id, data }) => {
+    commit(MODIFY_SKU_START)
+    console.log('sku data will be set', data)
+    editSku({ token: rootState.token, id, data })
+      .then(skuData => {
+        console.log('sku data responsed', skuData)
+        commit(MODIFY_SKU_SUCCESS, { key, productIndex, skuIndex, skuData })
+      })
+      .catch(skuModifyMessage => {
+        console.log('sku data modify error', skuModifyMessage)
+        commit(ADD_MESSAGE, { text: skuModifyMessage })
+        commit(MODIFY_SKU_FAIL, { skuModifyMessage })
+      })
   }
 }
 

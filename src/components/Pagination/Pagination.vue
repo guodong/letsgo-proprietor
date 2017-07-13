@@ -1,10 +1,10 @@
 <template>
   <ul class="pagination">
-    <li :class="{ disabled: currentPage === 1 }">
+    <li :class="{ hide: currentPage === 1 }">
       <router-link :to="createLink(currentPage - 1)">&laquo;</router-link>
      </li>
      <li v-for="page in pages" :class="{ active: page === currentPage }"><router-link :to="createLink(page)">{{ page }}</router-link></li>
-     <li :class="{ disabled: currentPage === lastPage }">
+     <li :class="{ hide: currentPage === lastPage }">
       <router-link v-if="currentPage !== lastPage" :to="createLink(currentPage + 1)">&raquo;</router-link>
      </li>
     </li>

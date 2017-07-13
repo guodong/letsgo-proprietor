@@ -29,7 +29,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="product in list">
+                  <tr v-for="(product, productIndex) in list" :key="product.id">
                     <td style="width: 6%;">{{ product.id }}</td>
                     <td style="vertical-align: middle; width: 24%;"><router-link to="#">{{ product.name }}</router-link></td>
                     <td style="width: 70%;">
@@ -44,12 +44,12 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr v-for="sku in product.skus">
+                          <tr v-for="(sku, skuIndex) in product.skus" :key="sku.id">
                             <td style="width: 10%;">{{ sku.id }}</td>
                             <td style="width: 30%;">{{ sku.name }}</td>
                             <td style="width: 30%;">￥{{ sku.price / 100 }} / {{ sku.unit }}</td>
                             <td style="width: 10%;">{{ sku.stock }}</td>
-                            <td style="width: 20%;"><button class="btn btn-xs btn-link">{{ sku.state === 1 ? '下' : '上' }}架</button></td>
+                            <td style="width: 20%;"><button @click="toogleState(productIndex, skuIndex, sku)" class="btn btn-xs btn-link">{{ sku.state === 1 ? '下' : '上' }}架</button></td>
                           </tr>
                         </tbody>
                       </table>
@@ -93,7 +93,8 @@
         return this.$store.state.product[this.key] && this.$store.state.product[this.key].last_page
       },
       ...mapState({
-        isListGetting: state => state.product.isListGetting
+        isListGetting: state => state.product.isListGetting,
+        isSkuModifying: state => state.product.isSkuModifying
       }),
       urlQuery () {
         // let query = { ...this.$route.query }
@@ -102,7 +103,8 @@
     },
     methods: {
       ...mapActions([
-        'getProductList'
+        'getProductList',
+        'modifySku'
       ]),
       getList () {
         if (!this.$store.state.product[this.key] && !this.isListGetting) {
@@ -112,10 +114,19 @@
       },
       search () {
         this.$router.push({ path: this.$route.path, query: { words: this.words } })
+      },
+      toogleState (productIndex, skuIndex, sku) {
+        let data = {
+          state: sku.state === 1 ? 2 : 1
+        }
+        if (!this.isSkuModifying) {
+          this.modifySku({ key: this.key, productIndex, skuIndex, id: sku.id, data })
+        }
       }
     },
     created () {
       this.getList()
+      this.words = this.$route.query.words || ''
     },
     watch: {
       '$route': 'getList'
