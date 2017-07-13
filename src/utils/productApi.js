@@ -37,3 +37,26 @@ export const createProduct = ({ product, token }) => new Promise((resolve, rejec
       }
     })
 })
+
+export const getProductList = ({ page, words, number = 10 }) => new Promise((resolve, reject) => {
+  axios.get(`${host}/products`, {
+    params: {
+      words, page, number
+    }
+  })
+    .then(res => {
+      let body = res.data
+      switch (body.code) {
+        case 0:
+          resolve(body.data)
+          break
+        default:
+          reject(body.message)
+      }
+    })
+    .catch(err => {
+      let listGetMessage = err.response.data && err.response.data.message || err.message
+      resolve(listGetMessage)
+    })
+})
+

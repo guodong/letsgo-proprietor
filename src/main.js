@@ -20,13 +20,7 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }
       })
     } else {
-      if (to.path === '/') {
-        next({
-          path: '/overview'
-        })
-      } else {
-        next()
-      }
+      next()
     }
   } else {
     next()

@@ -1,0 +1,6 @@
+{
+  "name": "HeaderBar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HeaderBar.vue"
+}

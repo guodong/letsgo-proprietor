@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
-import Overview from '@/components/Overview'
-import Products from '@/components/products/Index'
+import Layout from '../components/Layout'
+import HomePage from '../components/HomePage'
+import ProductListPage from '../components/ProductListPage'
 import Orders from '@/components/orders/Index'
 import TestPage from '@/components/TestPage'
 import LoginPage from '../components/LoginPage'
@@ -14,18 +14,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'main',
-      component: Main,
+      component: Layout,
       meta: { requiresAuth: true },
       children: [
         {
-          path: '/overview',
-          component: Overview
+          name: 'home',
+          path: '',
+          component: HomePage
         },
         {
-          path: 'products/list',
+          path: 'products',
           name: 'products',
-          component: Products
+          component: ProductListPage
         },
         {
           path: 'product/create',

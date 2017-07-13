@@ -15,9 +15,13 @@ import {
   DELETE_SKU,
   CREATE_PRODUCT_START,
   CREATE_PRODUCT_FAIL,
-  CREATE_PRODUCT_SUCCESS
+  CREATE_PRODUCT_SUCCESS,
+  GET_PRODUCT_LIST_START,
+  GET_PRODUCT_LIST_FAIL,
+  GET_PRODUCT_LIST_SUCCESS
 } from '../mutation-type.js'
-import { createProduct } from '../../utils/productApi.js'
+import { createProduct, getProductList } from '../../utils/productApi.js'
+import Vue from 'vue'
 
 const skuInitial = { name: '', barcode: '', price: null, stock: null, unit: '', state: 1, values: [], images: [] }
 const state = {
@@ -29,10 +33,15 @@ const state = {
   properties: [],
   // { name, barcode, price, stock, unit, state, values, images: [] }
   skus: [],
-  list: []
+  isListGetting: false,
+  listGetMessage: ''
 }
 
-const getters = {}
+const getters = {
+  // list: state => key => state[key] && state[key].data,
+  // currentPage: state => key => state[key] && state[key].current_page,
+  // lastPage: state => key => state[key] && state[key].last_page
+}
 
 const mutations = {
   [SELECT_PRODUCT_FRONTEND_CATEGORY]: (state, { categoryId }) => {
@@ -137,6 +146,20 @@ const mutations = {
     state.desc = ''
     state.skus = []
     state.properties = []
+  },
+  [GET_PRODUCT_LIST_START]: state => {
+    state.isListGetting = true
+    state.listGetMessage = ''
+  },
+  [GET_PRODUCT_LIST_FAIL]: (state, { listGetMessage }) => {
+    state.isListGetting = false
+    state.listGetMessage = listGetMessage
+  },
+  [GET_PRODUCT_LIST_SUCCESS]: (state, { key, data }) => {
+    // console.log('mutation: get product list success', data)
+    // state[key] = data
+    Vue.set(state, key, data)
+    state.isListGetting = false
   }
 }
 
@@ -212,6 +235,24 @@ const actions = {
         commit(ADD_MESSAGE, { text: createMessage, type: 'danger' })
         commit(CREATE_PRODUCT_FAIL, { createMessage })
       })
+  },
+  getProductList: ({ commit, state }, { page, words }) => {
+    let key = `${page}#${words}`
+    if (!state[key]) {
+      commit(GET_PRODUCT_LIST_START)
+      getProductList({ page, words })
+        .then(data => {
+          commit(GET_PRODUCT_LIST_SUCCESS, {
+            key, data
+          })
+        })
+        .catch(listGetMessage => {
+          commit(GET_PRODUCT_LIST_FAIL, { listGetMessage })
+          commit(ADD_MESSAGE, {
+            text: listGetMessage
+          })
+        })
+    }
   }
 }
 

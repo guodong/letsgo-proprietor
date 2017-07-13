@@ -2,7 +2,7 @@ import axios from 'axios'
 import host from './apiConfig.js'
 
 export const getFrontendCategory = () => new Promise((resolve, reject) => {
-  axios.get(`${host}/frontendcategory`)
+  axios.get(`${host}/frontendcategory?fields=pid`)
     .then(res => {
       let body = res.data
       switch (body.code) {
@@ -14,6 +14,7 @@ export const getFrontendCategory = () => new Promise((resolve, reject) => {
       }
     })
     .catch(err => {
+      console.log(err)
       reject(err.message)
     })
 })

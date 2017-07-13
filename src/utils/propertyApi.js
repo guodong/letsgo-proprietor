@@ -14,6 +14,7 @@ export const getProperty = () => new Promise((resolve, reject) => {
       }
     })
     .catch(err => {
+      // console.log(err)
       reject(err.message)
     })
 })
