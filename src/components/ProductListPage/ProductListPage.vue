@@ -12,9 +12,9 @@
               <div class="box-tools">
                 <pagination class="pagination-sm no-margin pull-right" :lastPage="lastPage" :currentPage="currentPage" :query="urlQuery"/>
                 <div class="input-group input-group-sm" style="width: 200px">
-                  <input class="form-control pull-right" type="text" placeholder="Search">
+                  <input class="form-control pull-right" type="text" placeholder="Search" v-model="words" @keypress.enter="search"/>
                   <div class="input-group-btn">
-                    <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-default" @click="search"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
               </div>
@@ -70,15 +70,17 @@
   import Pagination from '../Pagination'
   export default {
     name: 'ProductListPage',
+    data: () => ({
+      words: ''
+    }),
     computed: {
       key () {
         let { page = 1, words = '' } = this.$route.query
         return `${page}#${words}`
       },
       list () {
-        let list = this.$store.state.product[this.key] && this.$store.state.product[this.key].data || []
-        console.log('product list', list)
-        // return list
+        // let list = this.$store.state.product[this.key] && this.$store.state.product[this.key].data || []
+        // console.log('product list', list)
         return this.$store.state.product[this.key] && this.$store.state.product[this.key].data || []
       },
       total () {
@@ -93,41 +95,30 @@
       ...mapState({
         isListGetting: state => state.product.isListGetting
       }),
-      // ...mapGetters([
-      //   'list',
-      //   'currentPage',
-      //   'lastPage'
-      // ]),
-      // list () {
-      //   // console.log(this.key, this.product.isListGetting, this.product[this.key])
-      //   let list = this.product[this.key]
-      //   if (list) {
-      //     list = list.data
-      //   }
-      //   return list
-      //   // return this.product[this.key] && this.product[this.key].data
-      // },
-      // lastPage () {
-      //   return this.product[this.key] && this.product[this.key].last_page
-      // },
-      // currentPage () {
-      //   return this.product[this.key] && this.product[this.key].current_page
-      // },
       urlQuery () {
-        let query = { ...this.$route.query }
-        return query
+        // let query = { ...this.$route.query }
+        return { ...this.$route.query }
       }
     },
-    methods: mapActions([
-      'getProductList'
-    ]),
-    created () {
-      // console.log(this.$route)
-      // console.log('product list', this.list, 'is list getting', this.isListGetting)
-      if (!this.$store.state.product[this.key] && !this.isListGetting) {
-        let { page = 1, words = '' } = this.$route.query
-        this.getProductList({ page, words })
+    methods: {
+      ...mapActions([
+        'getProductList'
+      ]),
+      getList () {
+        if (!this.$store.state.product[this.key] && !this.isListGetting) {
+          let { page = 1, words = '' } = this.$route.query
+          this.getProductList({ page, words })
+        }
+      },
+      search () {
+        this.$router.push({ path: this.$route.path, query: { words: this.words } })
       }
+    },
+    created () {
+      this.getList()
+    },
+    watch: {
+      '$route': 'getList'
     },
     components: {
       Pagination
