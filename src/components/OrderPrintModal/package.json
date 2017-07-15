@@ -1,0 +1,6 @@
+{
+  "name": "OrderPrintModal",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./OrderPrintModal.vue"
+}

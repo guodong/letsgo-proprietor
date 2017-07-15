@@ -21,10 +21,10 @@
           </ul>
         </li>
         <li class="">
-          <router-link to="/orders/list">
+          <router-link to="/orders">
             <i class="fa fa-files-o"></i> <span>订单管理</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-green">150</small>
+              <small class="label pull-right bg-green">{{ orderCount }}</small>
             </span>
           </router-link>
         </li>
@@ -39,7 +39,21 @@
 </template>
 
 <script>
+  import { mapState, mapActions } from 'vuex'
   export default {
-    name: 'NavigationBar'
+    name: 'NavigationBar',
+    computed: {
+      ...mapState({
+        orderCount: state => state.order.count
+      })
+    },
+    methods: {
+      ...mapActions([ 'getOrderInformation' ])
+    },
+    created () {
+      if (this.orderCount === null) {
+        this.getOrderInformation()
+      }
+    }
   }
 </script>

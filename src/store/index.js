@@ -7,6 +7,7 @@ import admin from './modules/admin.js'
 import category from './modules/category.js'
 import product from './modules/product.js'
 import property from './modules/property.js'
+import order from './modules/order.js'
 import { GET_TOKEN_SUCCESS } from './mutation-type.js'
 
 Vue.use(Vuex)
@@ -27,7 +28,7 @@ let store = new Vuex.Store({
   getters,
   mutations,
   modules: {
-    admin, category, product, property
+    admin, category, product, property, order
   }
 })
 

@@ -1,0 +1,6 @@
+{
+  "name": "OrderListPage",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./OrderListPage.vue"
+}

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Layout from '../components/Layout'
 import HomePage from '../components/HomePage'
 import ProductListPage from '../components/ProductListPage'
-import Orders from '@/components/orders/Index'
+import OrderListPage from '../components/OrderListPage'
 import TestPage from '@/components/TestPage'
 import LoginPage from '../components/LoginPage'
 import ProductCreatePage from '../components/ProductCreatePage'
@@ -23,17 +23,19 @@ export default new Router({
           component: HomePage
         },
         {
-          path: 'products',
           name: 'products',
+          path: 'products',
           component: ProductListPage
         },
         {
+          name: 'create_product',
           path: 'product/create',
           component: ProductCreatePage
         },
         {
-          path: 'orders/list',
-          component: Orders
+          name: 'orders',
+          path: 'orders',
+          component: OrderListPage
         }
       ]
     },

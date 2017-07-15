@@ -78,6 +78,16 @@ export const editSku = ({ id, data, token }) => new Promise((resolve, reject) =>
     })
     .catch(err => {
       if (err.response.data) {
+        switch (err.response.data.code) {
+          case 1000:
+            router.push({
+              path: '/login',
+              query: {
+                redirect: router.currentRoute.path
+              }
+            })
+            break
+        }
         reject(err.response.data.message)
       } else {
         reject(err.message)
