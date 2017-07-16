@@ -34,6 +34,7 @@ export default {
   },
   // { type: success | warning | danger, text, time }
   [ADD_MESSAGE]: (state, { text, type = 'success', time = 3000 }) => {
+    console.log('message alert', text)
     state.messages.push({ text, type, time })
   },
   [REMOVE_MESSAGE]: (state, { index }) => {

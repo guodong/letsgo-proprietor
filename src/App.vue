@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main style="height: 100vh;">
     <router-view/>
     <message v-if="message" :text="message.text" :type="message.type"/>
   </main>

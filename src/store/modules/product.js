@@ -36,6 +36,7 @@ const state = {
   properties: [],
   // { name, barcode, price, stock, unit, state, values, images: [] }
   skus: [],
+  list: [],
   isListGetting: false,
   listGetMessage: '',
   isSkuModifying: false,
