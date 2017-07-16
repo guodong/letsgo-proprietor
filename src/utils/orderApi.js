@@ -57,7 +57,7 @@ export const getOrderInformation = ({ token }) => new Promise((resolve, reject) 
     })
     .catch(err => {
       let message = err.message
-      if (err.response.data) {
+      if (err.response && err.response.data) {
         message = err.response.data.message
         switch (err.response.data.code) {
           case 1000:

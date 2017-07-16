@@ -6,6 +6,12 @@ export const INPUT_ACCOUNT_PASSWORD = 'INPUT_ACCOUNT_PASSWORD'
 export const GET_TOKEN_START = 'GET_TOKEN_START'
 export const GET_TOKEN_FAIL = 'GET_TOKEN_FAIL'
 export const GET_TOKEN_SUCCESS = 'GET_TOKEN_SUCCESS'
+
+/**
+ * destory token
+ */
+export const DESTORY_TOKEN = 'DESTORY_TOKEN'
+
 /**
  * message manage
  */

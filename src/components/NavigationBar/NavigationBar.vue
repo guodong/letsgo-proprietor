@@ -29,7 +29,7 @@
           </router-link>
         </li>
         <li>
-          <a v-on:click="logout()" href="javascript:;">
+          <a v-on:click="destoryToken" href="javascript:;">
             <i class="glyphicon glyphicon-export"></i> <span>退出</span>
           </a>
         </li>
@@ -48,7 +48,7 @@
       })
     },
     methods: {
-      ...mapActions([ 'getOrderInformation' ])
+      ...mapActions([ 'getOrderInformation', 'destoryToken' ])
     },
     created () {
       if (this.orderCount === null) {

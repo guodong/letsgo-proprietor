@@ -4,6 +4,7 @@ import {
   GET_TOKEN_START,
   GET_TOKEN_FAIL,
   GET_TOKEN_SUCCESS,
+  DESTORY_TOKEN,
   ADD_MESSAGE,
   REMOVE_MESSAGE
 } from './mutation-type.js'
@@ -63,3 +64,9 @@ export const addMessage = ({ commit }, payload) => {
 export const removeMessage = ({ commit }, payload) => {
   commit(REMOVE_MESSAGE, { index: 0, ...payload })
 }
+
+export const destoryToken = ({ commit }) => {
+  commit(DESTORY_TOKEN)
+  router.push('/login')
+}
+

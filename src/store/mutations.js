@@ -4,6 +4,7 @@ import {
   GET_TOKEN_START,
   GET_TOKEN_FAIL,
   GET_TOKEN_SUCCESS,
+  DESTORY_TOKEN,
   ADD_MESSAGE,
   REMOVE_MESSAGE
 } from './mutation-type.js'
@@ -26,6 +27,10 @@ export default {
   [GET_TOKEN_SUCCESS]: (state, { token }) => {
     state.isTokenGetting = false
     state.token = token
+  },
+  [DESTORY_TOKEN]: state => {
+    localStorage.removeItem('token')
+    state.token = ''
   },
   // { type: success | warning | danger, text, time }
   [ADD_MESSAGE]: (state, { text, type = 'success', time = 3000 }) => {

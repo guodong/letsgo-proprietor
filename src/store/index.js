@@ -42,3 +42,4 @@ store.subscribe((mutation, state) => {
 })
 
 export default store
+
