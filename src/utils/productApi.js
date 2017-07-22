@@ -95,3 +95,17 @@ export const editSku = ({ id, data, token }) => new Promise((resolve, reject) =>
     })
 })
 
+export const getProduct = ({ id }) => new Promise((resolve, reject) => {
+  axios.get(`${host}/products/${id}`)
+    .then(res => {
+      resolve(res.data)
+    })
+    .catch(err => {
+      if (err.response.data) {
+        resolve(err.response.data)
+      } else {
+        reject(err)
+      }
+    })
+})
+

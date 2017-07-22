@@ -24,7 +24,7 @@
     </div>
     <input-group :value="name" @input="inputName" type="text" labelText="名称" :labelSpan="2" :inputSpan="10" placeholder="名称"/>
     <input-group :value="desc" @input="inputDescription" labelText="描述" :labelSpan="2" :inputSpan="10" placeholder="描述"/>
-    <div class="form-group">
+    <div class="form-group" v-if="isShowPropertySelector">
       <label class="col-sm-2 control-label">属性</label>
       <div class="col-sm-10">
         <multiselect :value="properties" @input="inputProperty" :options="propertyOptions" :multiple="true" :close-on-select="false" :clear-on-select="false" :hide-selected="true" placeholder="属性类型" label="name" track-by="id">
@@ -49,7 +49,11 @@
       propertyOptions: Array,
       categoryId: Number,
       name: String,
-      desc: String
+      desc: String,
+      isShowPropertySelector: {
+        type: Boolean,
+        default: () => true
+      }
     },
     computed: {
       category1 () {

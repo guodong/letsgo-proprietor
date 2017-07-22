@@ -7,6 +7,7 @@ import OrderListPage from '../components/OrderListPage'
 import TestPage from '@/components/TestPage'
 import LoginPage from '../components/LoginPage'
 import ProductCreatePage from '../components/ProductCreatePage'
+import ProductEditPage from '../components/ProductEditPage'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
           component: ProductCreatePage
         },
         {
+          name: 'edit_product',
+          path: 'products/:id/edit',
+          component: ProductEditPage
+        },
+        {
           name: 'orders',
           path: 'orders',
           component: OrderListPage
@@ -50,3 +56,4 @@ export default new Router({
     }
   ]
 })
+

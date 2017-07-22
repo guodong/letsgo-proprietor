@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" @uploadImage="uploadSkuImage" :key="index" :index="sku.index" :values="sku.values" :number="index" :productName="name" @deleteSku="deleteSku" :deleteAble="skuData.length > 1" :images="sku.images"/>
         </div>
       </div>

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "element-ui": "^1.4.0",
     "jquery": "^3.2.1",
     "vue": "^2.2.6",
     "vue-multiselect": "^2.0.0-beta.15",

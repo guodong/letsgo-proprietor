@@ -21,9 +21,12 @@ import {
   GET_PRODUCT_LIST_SUCCESS,
   MODIFY_SKU_START,
   MODIFY_SKU_FAIL,
-  MODIFY_SKU_SUCCESS
+  MODIFY_SKU_SUCCESS,
+  GET_PRODUCT_START,
+  GET_PRODUCT_FAIL,
+  GET_PRODUCT_SUCCESS
 } from '../mutation-type.js'
-import { createProduct, getProductList, editSku } from '../../utils/productApi.js'
+import { createProduct, getProductList, editSku, getProduct } from '../../utils/productApi.js'
 import Vue from 'vue'
 
 const skuInitial = { name: '', barcode: '', price: null, stock: null, unit: '', state: 1, values: [], images: [] }
@@ -40,7 +43,12 @@ const state = {
   isListGetting: false,
   listGetMessage: '',
   isSkuModifying: false,
-  skuModifyMessage: ''
+  skuModifyMessage: '',
+  isEditing: false,
+  editMessage: false,
+  editData: {},
+  isGetting: false,
+  getMessage: ''
 }
 
 const getters = {
@@ -163,6 +171,14 @@ const mutations = {
     // state[key] = data
     Vue.set(state, key, data)
     state.isListGetting = false
+    data.data.forEach(v => {
+      let index = state.list.findIndex(product => product.id === v.id)
+      if (index === -1) {
+        state.list.push(v)
+      } else {
+        state.list.splice(index, 1, v)
+      }
+    })
   },
   [MODIFY_SKU_START]: state => {
     state.isSkuModifying = true
@@ -175,6 +191,25 @@ const mutations = {
   [MODIFY_SKU_SUCCESS]: (state, { key, productIndex, skuIndex, skuData }) => {
     state.isSkuModifying = false
     state[key].data[productIndex].skus.splice(skuIndex, 1, skuData)
+  },
+  [GET_PRODUCT_START]: state => {
+    state.isGetting = true
+    state.getMessage = ''
+  },
+  [GET_PRODUCT_FAIL]: (state, { getMessage }) => {
+    state.isGetting = false
+    state.getMessage = getMessage
+  },
+  [GET_PRODUCT_SUCCESS]: (state, { product }) => {
+    state.isGetting = false
+    // console.log('product getted', product)
+    let index = state.list.findIndex(v => v.id === product.id)
+    // console.log('index find', index)
+    if (index === -1) {
+      state.list.push(product)
+    } else {
+      state.list.splice(index, 1, product)
+    }
   }
 }
 
@@ -278,9 +313,26 @@ const actions = {
         commit(MODIFY_SKU_SUCCESS, { key, productIndex, skuIndex, skuData })
       })
       .catch(skuModifyMessage => {
-        console.log('sku data modify error', skuModifyMessage)
+        // console.log('sku data modify error', skuModifyMessage)
         commit(ADD_MESSAGE, { text: skuModifyMessage })
         commit(MODIFY_SKU_FAIL, { skuModifyMessage })
+      })
+  },
+  getProduct: ({ commit }, { id }) => {
+    commit(GET_PRODUCT_START)
+    getProduct({ id })
+      .then(res => {
+        switch (res.code) {
+          case 0:
+            commit(GET_PRODUCT_SUCCESS, { product: res.data })
+            break
+          default:
+            throw new Error(res.message)
+        }
+      })
+      .catch(err => {
+        commit(GET_PRODUCT_FAIL, { getMessage: err.message })
+        commit(ADD_MESSAGE, { text: err.message, type: 'error' })
       })
   }
 }
