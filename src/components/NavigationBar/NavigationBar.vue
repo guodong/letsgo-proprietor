@@ -17,7 +17,7 @@
           </a>
           <ul class="treeview-menu">
             <li><router-link to="/products"><i class="fa fa-circle-o"></i> 商品列表</router-link></li>
-            <li><router-link to="/product/create"><i class="fa fa-circle-o"></i> 新增商品</router-link></li>
+            <li><router-link to="/products/create"><i class="fa fa-circle-o"></i> 新增商品</router-link></li>
           </ul>
         </li>
         <li class="">

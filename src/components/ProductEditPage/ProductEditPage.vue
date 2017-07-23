@@ -9,9 +9,9 @@
         <product-base-info-fill-out-card :isShowPropertySelector="false" :frontendCategories="frontendCategories" :categoryId="product && product.frontendcategories[0].id" :name="product && product.name" :desc="product && product.desc"/>
       </div>
     </div>
-    <div class="row">
+    <div v-for="(sku, index) in product.skus" :key="sku.id" class="row">
       <div class="col-xs-12">
-        <sku-fill-out-card/>
+        <sku-fill-out-card :index="index" />
       </div>
     </div>
   </main>
@@ -63,6 +63,9 @@
         this.getProduct({ id: this.id })
       }
     },
+    // beforeRouteEnter (to, from, next) {
+    //
+    // },
     components: {
       ProductBaseInfoFillOutCard,
       SkuFillOutCard

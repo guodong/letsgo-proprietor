@@ -44,7 +44,10 @@
   export default {
     name: 'ProductBaseInfoFillOutCard',
     props: {
-      frontendCategories: Array,
+      frontendCategories: {
+        type: Array,
+        default: () => ([])
+      },
       properties: Array,
       propertyOptions: Array,
       categoryId: Number,
@@ -68,6 +71,9 @@
       category3 () {
         // console.log('category id', this.categoryId, typeof this.categoryId)
         let categoryId = this.categoryId
+        // console.log('category id', categoryId, typeof categoryId)
+        // console.log('categories', this.frontendCategories)
+        // console.log('category 3', this.frontendCategories.find(v => v.id === categoryId))
         return this.frontendCategories.find(v => v.id === categoryId)
       }
     },

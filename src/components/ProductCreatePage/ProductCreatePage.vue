@@ -11,7 +11,7 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <sku-fill-out-card class="box-warning" v-for="(sku, index) in skuData" :properties="sku.properties" :name="sku.name" @inputName="inputSkuName" :barcode="sku.barcode" @inputBarcode="inputSkuBarcode" :price="sku.price" @inputPrice="inputSkuPrice" :unit="sku.unit" @inputUnit="inputSkuSellUnit" :stock="sku.stock" @inputStock="inputSkuStock" :state="sku.state" @checkState="checkSkuSellState" @uploadImage="uploadSkuImage" :key="index" :index="sku.index" :values="sku.values" :number="index" :productName="name" @deleteSku="deleteSku" :deleteAble="skuData.length > 1" :images="sku.images"/>
+          <sku-fill-out-card class="box-warning" v-for="(sku, number) in skuData" :properties="sku.properties" :name="sku.name" @inputName="name => {inputSkuName({ index: sku.index, name, values: sku.values })}" :barcode="sku.barcode" @inputBarcode="barcode => { inputSkuBarcode({ index: sku.index, barcode, values: sku.values })}" :price="sku.price" @inputPrice="price => { inputSkuPrice({ index: sku.index, price, values: sku.values })}" :unit="sku.unit" @inputUnit="unit => { inputSkuSellUnit({ index: sku.index, unit, values: sku.values })}" :stock="sku.stock" @inputStock="stock => { inputSkuStock({ index: sku.index, stock, values: sku.values })}" :state="sku.state" @checkState="sellState => { checkSkuSellState({ index: sku.index, sellState, values: sku.values })}" @uploadImage="images => { uploadSkuImage({ index: sku.index, images, values: sku.values })}" :key="number" :number="number" :productName="name" @deleteSku="deleteSku({ index: sku.index })" :deleteAble="skuData.length > 1" :images="sku.images"/>
         </div>
       </div>
       <button class="btn btn-success btn-block" @click="createProduct" :disabled="isCreating">发布{{ isCreating ? '中……' : '商品'}}</button>
@@ -79,7 +79,6 @@ export default {
     ...mapState({
       frontendCategories: state => state.category.front.sort((curr, next) => curr.sort < next.sort),
       isFrontendCategoryGetting: state => state.category.isFrontGetting,
-      categoryId: state => state.product.category_id,
       name: state => state.product.name,
       desc: state => state.product.desc,
       properties: state => state.product.properties,
@@ -88,6 +87,17 @@ export default {
       skus: state => state.product.skus,
       isCreating: state => state.product.isCreating
     }),
+    categoryId () {
+      let categoryId = this.$store.state.product.category_id
+      if (!categoryId && this.frontendCategories.length) {
+        let cate1 = this.frontendCategories.find(v => v.pid === 0)
+        let cate2 = this.frontendCategories.find(v => v.pid === cate1.id)
+        let cate3 = this.frontendCategories.find(v => v.pid === cate2.id)
+        categoryId = cate3.id
+        this.selectCategory({ categoryId })
+      }
+      return categoryId
+    },
     skuData () {
       // console.log('generate sku data')
       let valueData = []

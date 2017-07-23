@@ -30,7 +30,7 @@ export default new Router({
         },
         {
           name: 'create_product',
-          path: 'product/create',
+          path: 'products/create',
           component: ProductCreatePage
         },
         {

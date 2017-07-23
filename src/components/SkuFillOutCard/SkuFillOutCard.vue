@@ -29,16 +29,11 @@
   export default {
     name: 'SkuFillOutCard',
     props: {
-      index: Number,
       number: Number,
       productName: String,
       name: String,
       barcode: String,
       properties: {
-        type: Array,
-        default: () => ([])
-      },
-      values: {
         type: Array,
         default: () => ([])
       },
@@ -51,30 +46,32 @@
     },
     methods: {
       inputName (name) {
-        this.$emit('inputName', { index: this.index, name, values: this.values })
+        // console.log('input name', name)
+        // console.log(this.inputName)
+        this.$emit('inputName', name)
       },
       inputBarcode (barcode) {
         // console.log('input barcode', barcode)
-        this.$emit('inputBarcode', { index: this.index, barcode, values: this.values })
+        this.$emit('inputBarcode', barcode)
       },
       inputPrice (price) {
-        this.$emit('inputPrice', { index: this.index, price: Number(price), values: this.values })
+        this.$emit('inputPrice', Number(price))
       },
       inputUnit (unit) {
-        this.$emit('inputUnit', { index: this.index, unit, values: this.values })
+        this.$emit('inputUnit', unit)
       },
       inputStock (stock) {
-        this.$emit('inputStock', { index: this.index, stock: Number(stock), values: this.values })
+        this.$emit('inputStock', Number(stock))
       },
       checkState (event) {
-        this.$emit('checkState', { index: this.index, sellState: Number(event.target.value), values: this.values })
+        this.$emit('checkState', Number(event.target.value))
       },
       uploadImage (images) {
         // console.log('upload image', images)
-        this.$emit('uploadImage', { index: this.index, images, values: this.values })
+        this.$emit('uploadImage', images)
       },
       deleteSku () {
-        this.$emit('deleteSku', { index: this.index })
+        this.$emit('deleteSku')
       }
     },
     components: {
