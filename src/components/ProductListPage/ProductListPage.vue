@@ -31,7 +31,7 @@
                 <tbody>
                   <tr v-for="(product, productIndex) in list" :key="product.id">
                     <td style="width: 6%;">{{ product.id }}</td>
-                    <td style="vertical-align: middle; width: 24%;"><router-link to="#">{{ product.name }}</router-link></td>
+                    <td style="vertical-align: middle; width: 24%;"><router-link :to="`/products/${product.id}/edit`">{{ product.name }}</router-link></td>
                     <td style="width: 70%;">
                       <table class="table table-hover subtable">
                         <thead>

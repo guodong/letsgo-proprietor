@@ -109,3 +109,21 @@ export const getProduct = ({ id }) => new Promise((resolve, reject) => {
     })
 })
 
+export const editProduct = ({ token, id, data }) => new Promise((resolve, reject) => {
+  axios.put(`${host}/products/${id}`, data, {
+    headers: {
+      'Authorization': token
+    }
+  })
+    .then(res => {
+      resolve(res.data)
+    })
+    .catch(err => {
+      if (err.response.data) {
+        resolve(err.response.data)
+      } else {
+        reject(err)
+      }
+    })
+})
+

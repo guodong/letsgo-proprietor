@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Print from './components/orders/Print'
 import Resource from 'vue-resource'
 import store from './store'
 
@@ -33,6 +32,6 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App, Print }
+  components: { App }
 })
 

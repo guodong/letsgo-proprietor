@@ -10,8 +10,8 @@
       <label class="col-sm-2 control-label">销售状态</label>
       <div class="col-sm-10">
         <div class="radio sale-state">
-          <label><input :name="`sale_state_${number}`" type="radio" value="1" :checked="state" @change="checkState">上架</label>
-          <label><input :name="`sale_state_${number}`" type="radio" value="0" :checked="!state" @change="checkState">下架</label>
+          <label><input :name="`sale_state_${number}`" type="radio" value="1" :checked="state === 1" @change="checkState">上架</label>
+          <label><input :name="`sale_state_${number}`" type="radio" value="2" :checked="state === 2" @change="checkState">下架</label>
         </div>
       </div>
     </div>

@@ -24,12 +24,34 @@ import {
   MODIFY_SKU_SUCCESS,
   GET_PRODUCT_START,
   GET_PRODUCT_FAIL,
-  GET_PRODUCT_SUCCESS
+  GET_PRODUCT_SUCCESS,
+  MODIFY_PRODUCT_FRONTEND_CATEGORY,
+  MODIFY_PRODUCT_NAME,
+  MODIFY_PRODUCT_DESCRIPTION,
+  MODIFY_PRODUCT_SKU_NAME,
+  MODIFY_PRODUCT_SKU_BARCODE,
+  MODIFY_PRODUCT_SKU_PRICE,
+  MODIFY_PRODUCT_SKU_SELL_UNIT,
+  MODIFY_PRODUCT_SKU_STOCK,
+  MODIFY_PRODUCT_SKU_SELL_STATE,
+  MODIFY_PRODUCT_SKU_IMAGE,
+  MODIFY_PRODUCT_START,
+  MODIFY_PRODUCT_FAIL,
+  MODIFY_PRODUCT_SUCCESS,
+  CANCEL_PRODUCT_MODIFY
 } from '../mutation-type.js'
-import { createProduct, getProductList, editSku, getProduct } from '../../utils/productApi.js'
+import { createProduct, getProductList, editSku, getProduct, editProduct } from '../../utils/productApi.js'
 import Vue from 'vue'
+import router from '../../router'
 
 const skuInitial = { name: '', barcode: '', price: null, stock: null, unit: '', state: 1, values: [], images: [] }
+const editDataInitial = {
+  frontendCategoryId: null,
+  name: '',
+  desc: '',
+  skus: []
+}
+
 const state = {
   isCreating: false,
   createMessage: '',
@@ -46,7 +68,7 @@ const state = {
   skuModifyMessage: '',
   isEditing: false,
   editMessage: false,
-  editData: {},
+  editData: JSON.parse(JSON.stringify(editDataInitial)),
   isGetting: false,
   getMessage: ''
 }
@@ -124,6 +146,7 @@ const mutations = {
     }
   },
   [CHECK_SKU_SELL_STATE]: (state, { index, sellState, values = [] }) => {
+    // console.log('check sell state', sellState)
     if (index === undefined) {
       state.skus.push({ ...skuInitial, state: sellState, values })
     } else {
@@ -210,6 +233,91 @@ const mutations = {
     } else {
       state.list.splice(index, 1, product)
     }
+  },
+  [MODIFY_PRODUCT_FRONTEND_CATEGORY]: (state, { frontendCategoryId }) => {
+    state.editData.frontendCategoryId = frontendCategoryId
+  },
+  [MODIFY_PRODUCT_NAME]: (state, { name }) => {
+    state.editData.name = name
+  },
+  [MODIFY_PRODUCT_DESCRIPTION]: (state, { desc }) => {
+    state.editData.desc = desc
+  },
+  [MODIFY_PRODUCT_SKU_NAME]: (state, { name, id }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, name })
+    } else {
+      Vue.set(sku, 'name', name)
+    }
+  },
+  [MODIFY_PRODUCT_SKU_BARCODE]: (state, { id, barcode }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, barcode })
+    } else {
+      Vue.set(sku, 'barcode', barcode)
+    }
+  },
+  [MODIFY_PRODUCT_SKU_PRICE]: (state, { id, price }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, price })
+    } else {
+      Vue.set(sku, 'price', price)
+    }
+  },
+  [MODIFY_PRODUCT_SKU_SELL_UNIT]: (state, { id, unit }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, unit })
+    } else {
+      Vue.set(sku, 'unit', unit)
+    }
+  },
+  [MODIFY_PRODUCT_SKU_STOCK]: (state, { id, stock }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, stock })
+    } else {
+      Vue.set(sku, 'stock', stock)
+    }
+  },
+  [MODIFY_PRODUCT_SKU_SELL_STATE]: (state, { id, sellState }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, state: sellState })
+    } else {
+      Vue.set(sku, 'state', sellState)
+    }
+  },
+  [MODIFY_PRODUCT_SKU_IMAGE]: (state, { id, images }) => {
+    let sku = state.editData.skus.find(v => v.id === id)
+    if (!sku) {
+      state.editData.skus.push({ id, images })
+    } else {
+      Vue.set(sku, 'images', images)
+    }
+  },
+  [MODIFY_PRODUCT_START]: state => {
+    state.isEditing = true
+    state.editMessage = ''
+  },
+  [MODIFY_PRODUCT_FAIL]: (state, { editMessage }) => {
+    state.isEditing = false
+    state.editMessage = editMessage
+  },
+  [MODIFY_PRODUCT_SUCCESS]: (state, { product }) => {
+    let index = state.list.findIndex(v => v.id === product.id)
+    if (index === -1) {
+      state.list.push(product)
+    } else {
+      state.list.splice(index, 1, product)
+    }
+    state.editData = JSON.parse(JSON.stringify(editDataInitial))
+  },
+  [CANCEL_PRODUCT_MODIFY]: state => {
+    state.editData = JSON.parse(JSON.stringify(editDataInitial))
   }
 }
 
@@ -286,7 +394,7 @@ const actions = {
         commit(CREATE_PRODUCT_FAIL, { createMessage })
       })
   },
-  getProductList: ({ commit, state }, { page, words }) => {
+  getProductList ({ commit, state }, { page, words }) {
     let key = `${page}#${words}`
     if (!state[key]) {
       commit(GET_PRODUCT_LIST_START)
@@ -304,12 +412,12 @@ const actions = {
         })
     }
   },
-  modifySku: ({ commit, state, rootState }, { key, productIndex, skuIndex, id, data }) => {
+  modifySku ({ commit, state, rootState }, { key, productIndex, skuIndex, id, data }) {
     commit(MODIFY_SKU_START)
     console.log('sku data will be set', data)
     editSku({ token: rootState.token, id, data })
       .then(skuData => {
-        console.log('sku data responsed', skuData)
+        // console.log('sku data responsed', skuData)
         commit(MODIFY_SKU_SUCCESS, { key, productIndex, skuIndex, skuData })
       })
       .catch(skuModifyMessage => {
@@ -318,7 +426,7 @@ const actions = {
         commit(MODIFY_SKU_FAIL, { skuModifyMessage })
       })
   },
-  getProduct: ({ commit }, { id }) => {
+  getProduct ({ commit }, { id }) {
     commit(GET_PRODUCT_START)
     getProduct({ id })
       .then(res => {
@@ -334,6 +442,96 @@ const actions = {
         commit(GET_PRODUCT_FAIL, { getMessage: err.message })
         commit(ADD_MESSAGE, { text: err.message, type: 'error' })
       })
+  },
+  modifyProductFrontendCategory ({ commit }, { categoryId }) {
+    commit(MODIFY_PRODUCT_FRONTEND_CATEGORY, { frontendCategoryId: categoryId })
+  },
+  modifyProductName ({ commit }, { name }) {
+    commit(MODIFY_PRODUCT_NAME, { name })
+  },
+  modifyProductDescription ({ commit }, { desc }) {
+    commit(MODIFY_PRODUCT_DESCRIPTION, { desc })
+  },
+  modifyProductSkuName ({ commit }, { name, id }) {
+    commit(MODIFY_PRODUCT_SKU_NAME, { id, name })
+  },
+  modifyProductSkuBarcode ({ commit }, { id, barcode }) {
+    commit(MODIFY_PRODUCT_SKU_BARCODE, { id, barcode })
+  },
+  modifyProductSkuPrice ({ commit }, { id, price }) {
+    commit(MODIFY_PRODUCT_SKU_PRICE, { id, price })
+  },
+  modifyProductSkuSellUnit ({ commit }, { id, unit }) {
+    commit(MODIFY_PRODUCT_SKU_SELL_UNIT, { id, unit })
+  },
+  modifyProductSkuStock ({ commit }, { id, stock }) {
+    commit(MODIFY_PRODUCT_SKU_STOCK, { id, stock })
+  },
+  modifyProductSkuSellState ({ commit }, { id, sellState }) {
+    commit(MODIFY_PRODUCT_SKU_SELL_STATE, { id, sellState })
+  },
+  modifyProductSkuImage ({ commit }, { id, images }) {
+    commit(MODIFY_PRODUCT_SKU_IMAGE, { id, images })
+  },
+  modifyProduct ({ commit, state, rootState }) {
+    let data = JSON.parse(JSON.stringify(state.editData))
+    if (data.frontendCategoryId) {
+      data.frontend_categories = [ data.frontendCategoryId ]
+    }
+    delete data.frontendCategoryId
+    if (!data.name) {
+      delete data.name
+    }
+    if (!data.desc) {
+      delete data.desc
+    }
+
+    data.skus.forEach(sku => {
+      if (sku.images) {
+        let images = []
+        sku.images.forEach((data, index) => {
+          if (!data.startsWith('http')) {
+            images.push({
+              number: index + 1,
+              data
+            })
+          }
+        })
+        if (images.length > 0) {
+          sku.images = images
+        }
+      }
+    })
+
+    editProduct({
+      id: router.currentRoute.params.id,
+      token: rootState.token,
+      data
+    })
+      .then(res => {
+        switch (res.code) {
+          case 0:
+            commit(MODIFY_PRODUCT_SUCCESS, { product: res.data })
+            commit(ADD_MESSAGE, { text: '商品修改成功' })
+            break
+          case 1000:
+            router.push({
+              path: '/login',
+              redirect: router.currentRoute.fullPath
+            })
+            throw new Error(res.message)
+          default:
+            throw new Error(res.message)
+        }
+      })
+      .catch(err => {
+        commit(MODIFY_PRODUCT_FAIL, { editMessage: err.message })
+        commit(ADD_MESSAGE, { text: err.message, type: 'danger' })
+      })
+  },
+  cancelProductModify ({ commit }) {
+    router.push('/products')
+    commit(CANCEL_PRODUCT_MODIFY)
   }
 }
 
@@ -343,3 +541,4 @@ export default {
   mutations,
   actions
 }
+

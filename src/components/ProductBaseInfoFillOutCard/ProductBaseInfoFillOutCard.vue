@@ -6,17 +6,17 @@
         <div class="row">
           <div class="col-sm-4">
             <select class="form-control" @change="selectCategory">
-              <option v-for="category in frontendCategories" v-if="category.pid === 0" :value="category.id" :key="category.id" :selected="category.id === category1.id">{{ category.name }}</option>
+              <option v-for="category in frontendCategories" v-if="category.pid === 0" :value="category.id" :key="category.id" :selected="category.id === category1 && category1.id">{{ category.name }}</option>
             </select>
           </div>
           <div class="col-sm-4">
             <select class="form-control" @change="selectCategory">
-              <option v-for="category in frontendCategories" v-if="category.pid === category1.id" :value="category.id" :key="category.id" :selected="category.id === category2.id">{{ category.name }}</option>
+              <option v-for="category in frontendCategories" v-if="category.pid === category1.id" :value="category.id" :key="category.id" :selected="category.id === category2 && category2.id">{{ category.name }}</option>
             </select>
           </div>
           <div class="col-sm-4">
             <select class="form-control" @change="selectCategory">
-              <option v-for="category in frontendCategories" v-if="category.pid === category2.id" :value="category.id" :key="category.id" :selected="category.id === category3.id">{{ category.name }}</option>
+              <option v-for="category in frontendCategories" v-if="category.pid === category2.id" :value="category.id" :key="category.id" :selected="category.id === category3 && category3.id">{{ category.name }}</option>
             </select>
           </div>
         </div>
@@ -48,7 +48,10 @@
         type: Array,
         default: () => ([])
       },
-      properties: Array,
+      properties: {
+        type: Array,
+        default: () => ([])
+      },
       propertyOptions: Array,
       categoryId: Number,
       name: String,
@@ -60,13 +63,19 @@
     },
     computed: {
       category1 () {
-        let categoryId = this.category2.pid
-        return this.frontendCategories.find(v => v.id === categoryId)
+        if (this.category2) {
+          let categoryId = this.category2.pid
+          return this.frontendCategories.find(v => v.id === categoryId)
+        }
+        return undefined
       },
       category2 () {
         // console.log('category 3', this.category3)
-        let categoryId = this.category3.pid
-        return this.frontendCategories.find(v => v.id === categoryId)
+        if (this.category3) {
+          let categoryId = this.category3.pid
+          return this.frontendCategories.find(v => v.id === categoryId)
+        }
+        return undefined
       },
       category3 () {
         // console.log('category id', this.categoryId, typeof this.categoryId)
@@ -81,16 +90,18 @@
       selectCategory (event) {
         // console.log(event.target.value)
         // console.log('frontend categories', this.frontendCategories)
-        let categoryId = event.target.value
+        let categoryId = Number(event.target.value)
         let category = this.frontendCategories.find(v => v.id === Number(categoryId))
         // console.log('category', categoryId, category)
-        let code = category.code
-        if (code.endsWith('0000')) {
-          code = code.substr(0, 2) + '0101'
-        } else if (code.endsWith('00')) {
-          code = code.substr(0, 4) + '01'
+        if (category.code.endsWith('0000')) {
+          let cate2 = this.frontendCategories.find(v => v.pid === category.id)
+          let cate3 = this.frontendCategories.find(v => v.pid === cate2.id)
+          categoryId = cate3.id
+        } else if (category.code.endsWith('00')) {
+          let cate3 = this.frontendCategories.find(v => v.pid === category.id)
+          categoryId = cate3.id
         }
-        this.$emit('selectCategory', { categoryId: this.frontendCategories.find(v => v.code === code).id })
+        this.$emit('selectCategory', { categoryId })
       },
       inputName (name) {
         // console.log('input name', name)
