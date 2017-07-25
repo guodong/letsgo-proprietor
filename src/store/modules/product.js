@@ -308,6 +308,7 @@ const mutations = {
     state.editMessage = editMessage
   },
   [MODIFY_PRODUCT_SUCCESS]: (state, { product }) => {
+    state.isEditing = false
     let index = state.list.findIndex(v => v.id === product.id)
     if (index === -1) {
       state.list.push(product)
@@ -503,6 +504,7 @@ const actions = {
       }
     })
 
+    commit(MODIFY_PRODUCT_START)
     editProduct({
       id: router.currentRoute.params.id,
       token: rootState.token,
