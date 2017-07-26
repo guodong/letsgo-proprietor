@@ -52,7 +52,7 @@
                             <td>{{ sku.name }}</td>
                             <td>￥{{ sku.pivot.price / 100 }} / {{ sku.unit }}</td>
                             <td>{{ sku.pivot.quantity }}</td>
-                            <td style="width: 20%;">￥{{ sku.pivot.price / 100 * sku.pivot.quantity }}</td>
+                            <td style="width: 20%;">￥{{ sku.pivot.price * sku.pivot.quantity / 100 }}</td>
                           </tr>
                         </tbody>
                       </table>
