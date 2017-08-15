@@ -49,7 +49,7 @@
                         <tbody>
                           <tr v-for="sku in order.skus" :key="sku.id">
                             <td>{{ sku.id }}</td>
-                            <td>{{ sku.name }}</td>
+                            <td>{{ `${sku.product.name}${sku.name ? `(${sku.name})` : ''}` }}</td>
                             <td>￥{{ sku.pivot.price / 100 }} / {{ sku.unit }}</td>
                             <td>{{ sku.pivot.quantity }}</td>
                             <td style="width: 20%;">￥{{ sku.pivot.price * sku.pivot.quantity / 100 }}</td>
@@ -70,7 +70,6 @@
       </div>
     </section>
   </div>
-  
 </template>
 
 <script>
