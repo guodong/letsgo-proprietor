@@ -6,7 +6,13 @@
   <main class="content">
     <div class="row">
       <div class="col-xs-12">
-        <product-base-info-fill-out-card :isShowPropertySelector="false" :frontendCategories="frontendCategories" :categoryId="frontendCategoryId" :name="name" :desc="desc" @selectCategory="modifyProductFrontendCategory" @inputName="modifyProductName" @inputDescription="modifyProductDescription"/>
+        <product-base-info-fill-out-card :isShowPropertySelector="false"
+          :frontendCategories="frontendCategories"
+          :categoryId="frontendCategoryId"
+          :name="name" :desc="desc"
+          @selectCategory="modifyProductFrontendCategory"
+          @inputName="modifyProductName"
+          @inputDescription="modifyProductDescription" />
       </div>
     </div>
     <div class="row">
@@ -31,6 +37,8 @@
   import SkuFillOutCard from '../SkuFillOutCard'
   import { mapState, mapActions } from 'vuex'
   import { imageHost } from '../../utils/apiConfig'
+
+  // console.log('product edit page')
   export default {
     name: 'ProductEditPage',
     computed: {
@@ -53,7 +61,9 @@
       },
       frontendCategoryId () {
         // console.log('product', this.product)
-        return this.data.frontendCategoryId || this.product && this.product.frontendcategories[0].id
+        let id = this.data.frontendCategoryId || this.product && this.product.frontendcategories[0].id
+        // console.log(id)
+        return id
       },
       name () {
         return this.data.name || this.product && this.product.name

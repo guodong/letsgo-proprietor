@@ -6,17 +6,29 @@
         <div class="row">
           <div class="col-sm-4">
             <select class="form-control" @change="selectCategory">
-              <option v-for="category in frontendCategories" v-if="category.pid === 0" :value="category.id" :key="category.id" :selected="category.id === category1 && category1.id">{{ category.name }}</option>
+              <option v-for="category in frontendCategories" v-if="category.pid === 0"
+                :value="category.id" :key="category.id"
+                :selected="category.id === (category1 && category1.id)">
+                  {{ category.name }}
+                </option>
             </select>
           </div>
           <div class="col-sm-4">
             <select class="form-control" @change="selectCategory">
-              <option v-for="category in frontendCategories" v-if="category.pid === category1.id" :value="category.id" :key="category.id" :selected="category.id === category2 && category2.id">{{ category.name }}</option>
+              <option v-for="category in frontendCategories"
+                v-if="category.pid === category1.id" :value="category.id" :key="category.id"
+                :selected="category.id === (category2 && category2.id)">
+                  {{ category2.name }}
+                </option>
             </select>
           </div>
           <div class="col-sm-4">
             <select class="form-control" @change="selectCategory">
-              <option v-for="category in frontendCategories" v-if="category.pid === category2.id" :value="category.id" :key="category.id" :selected="category.id === category3 && category3.id">{{ category.name }}</option>
+              <option v-for="category in frontendCategories"
+                v-if="category.pid === category2.id" :value="category.id" :key="category.id"
+                :selected="category.id === (category3 && category3.id)">
+                  {{ category3.name }}
+                </option>
             </select>
           </div>
         </div>
@@ -65,7 +77,9 @@
       category1 () {
         if (this.category2) {
           let categoryId = this.category2.pid
-          return this.frontendCategories.find(v => v.id === categoryId)
+          let category = this.frontendCategories.find(v => v.id === categoryId)
+          console.log('category 1', category)
+          return category
         }
         return undefined
       },
@@ -73,7 +87,9 @@
         // console.log('category 3', this.category3)
         if (this.category3) {
           let categoryId = this.category3.pid
-          return this.frontendCategories.find(v => v.id === categoryId)
+          let category = this.frontendCategories.find(v => v.id === categoryId)
+          console.log('category 2', category)
+          return category
         }
         return undefined
       },
@@ -81,9 +97,11 @@
         // console.log('category id', this.categoryId, typeof this.categoryId)
         let categoryId = this.categoryId
         // console.log('category id', categoryId, typeof categoryId)
-        // console.log('categories', this.frontendCategories)
+        console.log('categories', this.frontendCategories)
         // console.log('category 3', this.frontendCategories.find(v => v.id === categoryId))
-        return this.frontendCategories.find(v => v.id === categoryId)
+        let category = this.frontendCategories.find(v => v.id === categoryId)
+        console.log('category 3', category)
+        return category
       }
     },
     methods: {
