@@ -18,7 +18,7 @@
               <option v-for="category in frontendCategories"
                 v-if="category.pid === category1.id" :value="category.id" :key="category.id"
                 :selected="category.id === (category2 && category2.id)">
-                  {{ category2.name }}
+                  {{ category.name }}
                 </option>
             </select>
           </div>
@@ -27,7 +27,7 @@
               <option v-for="category in frontendCategories"
                 v-if="category.pid === category2.id" :value="category.id" :key="category.id"
                 :selected="category.id === (category3 && category3.id)">
-                  {{ category3.name }}
+                  {{ category.name }}
                 </option>
             </select>
           </div>
