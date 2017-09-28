@@ -4,7 +4,16 @@
     <input-group v-for="(property, index) in properties" :isStatic="true" :labelText="property.name" :value="property.value" :labelSpan="2" :inputSpan="10" :key="index"/>
     <input-group type="number" labelText="条码" :labelSpan="2" :inputSpan="10" placeholder="条形码" :value="barcode" @input="inputBarcode"/>
     <input-group type="number" labelText="单价" :labelSpan="2" :inputSpan="10" placeholder="单价" frontAddon="¥" :value="price" @input="inputPrice"/>
-    <input-group type="text" labelText="单位" :labelSpan="2" :inputSpan="10" placeholder="单位" :frontAddon="price ? `¥${price} / ` : ''" :value="unit" @input="inputUnit"/>
+    <input-group
+      type="text"
+      labelText="单位"
+      :labelSpan="2"
+      :inputSpan="10"
+      placeholder="单位"
+      :frontAddon="price ? `¥${price} / ` : ''"
+      :value="unit"
+      @input="inputUnit"
+    />
     <input-group type="number" labelText="库存" :labelSpan="2" :inputSpan="10" placeholder="库存" :value="stock" @input="inputStock"/>
     <div class="form-group">
       <label class="col-sm-2 control-label">销售状态</label>

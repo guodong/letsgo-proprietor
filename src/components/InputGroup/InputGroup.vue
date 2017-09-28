@@ -4,7 +4,15 @@
     <div :class="`col-sm-${inputSpan}`">
       <div class="input-group" v-if="frontAddon || backAddon">
         <div class="input-group-addon" v-if="frontAddon">{{ frontAddon }}</div>
-        <input v-if="!isStatic && type" :type="type" class="form-control" :placeholder="placeholder" :value="value" @input="handleInput">
+        <input
+          style="z-index: 0;"
+          v-if="!isStatic && type"
+          :type="type"
+          class="form-control"
+          :placeholder="placeholder"
+          :value="value"
+          @input="handleInput"
+        />
         <div class="input-group-addon" v-if="backAddon">{{ backAddon }}</div>
       </div>
       <input v-else-if="!isStatic && type" :type="type" class="form-control" :placeholder="placeholder" :value="value" @input="handleInput">
